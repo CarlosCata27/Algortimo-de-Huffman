@@ -3,18 +3,12 @@
 #include "funciones.h"
 
 int main() {
-    FILE *original;
+    Nodo *lista=NULL,*arbol;
+    FILE *original=NULL;
     char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt";
-    original = fopen(nombre,"rt");
+    lista = listwfile(lista,original,nombre);
 
-    if(original == NULL)
-    {
-        puts("Este archivo no existe");
-        exit (-1);
-    }
-    else
-    {
-        puts("Ya abrio asies");
-    }
+
+
     return 0;
 }

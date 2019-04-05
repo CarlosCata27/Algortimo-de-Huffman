@@ -195,4 +195,16 @@ Nodo* altafinal(int dato, Nodo* top) {
     return top;
 }
 
+Nodo  *listwfile(Nodo *top,FILE *archivo,char *nombre)
+{
+    archivo = fopen(nombre,"rt");
+
+    if(archivo == NULL)
+    {
+        puts("Este archivo no existe");
+        exit (-1);
+    }
+
+}
+
 #endif
