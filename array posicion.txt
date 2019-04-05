@@ -1,0 +1,14 @@
+caracteres[0] = s
+caracteres[1] = i
+caracteres[2] = m
+caracteres[3] = e
+caracteres[4] = espacio
+caracteres[5] = a
+caracteres[6] = t
+caracteres[7] = p
+caracteres[8] = y
+caracteres[9] = 
+caracteres[10] = 
+caracteres[11] = 
+caracteres[12] = 
+caracteres[13] = 
