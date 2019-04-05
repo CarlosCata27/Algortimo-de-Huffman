@@ -1,0 +1,29 @@
+Practica #4 APP Arboles
+
+Codificacion y Decodificacion de Huffman
+
+El exito no esta en vencer siemmpre sino en no desanimarse nunca.
+
+e -> 11
+L -> 1
+"SPACE" -> 11
+x -> 1
+i -> 4
+t -> 2
+O -> 4
+n -> 9
+s -> 5
+a -> 4
+v -> 1
+c -> 2
+r -> 3
+m -> 2
+P -> 1
+d -> 1
+u -> 1
+. -> 1
+
+L X V P D U . T C M  R  I O A S N E  _
+1 1 1 1 1 1 1 2 2 2  3  4 4 4 5 9 11 11
+
+ 
