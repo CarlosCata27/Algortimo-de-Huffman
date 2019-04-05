@@ -3,9 +3,15 @@
 
 typedef struct _Nodo{
     int dato;
+    char caracter;
     struct _Nodo *L;
     struct _Nodo *R;
 }Nodo;
+
+typedef  struct _Arco{
+    int dato;
+    struct _Arco *sig;
+};
 
 Nodo* allocateMem(int dato)
 {
