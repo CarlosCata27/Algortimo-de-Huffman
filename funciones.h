@@ -121,4 +121,72 @@ int size(Nodo *top)
         return(size(top->L) + 1 + size(top->R));
 }
 
+int recorrido(Nodo *top) {
+    int i = 0;
+    if (top != NULL) {
+        while (top != NULL) {
+            top = top->R;
+            i++;
+        }
+    }
+    return i;
+}
+
+void ordenar_seleccion(int a[],int n)
+{
+    int indiceMenor;
+    int q=0;
+
+    for(int i=0;i<n-1;i++)
+    {
+        indiceMenor=i;
+        for(int j=i+1;j<n;j++)
+            if(a[j]<a[indiceMenor])
+                indiceMenor=j;
+        if(i!=indiceMenor)
+        {
+            int aux=a[i];
+            a[i]=a[indiceMenor];
+            a[indiceMenor]=aux;
+        }
+    }
+    for (q=0;q<n;q++)
+    {
+        printf("%d\n",a[q]);
+    }
+}
+
+Nodo* altainicio(int dato, Nodo* top)
+{
+    int t = recorrido(top);
+    Nodo *box;
+    box = allocateMem(dato);
+    if(top != NULL){
+        if(t>0)
+        {
+            box->R=top;
+            top->L=box;
+        }
+    }
+    top = box;
+    puts("Agregado");
+    return top;
+}
+
+Nodo* altafinal(int dato, Nodo* top) {
+    Nodo *box, *aux;
+    box = allocateMem(dato);
+    if (top != NULL) {
+        aux = top;
+        while (aux->R != NULL) {
+            aux = aux->R;
+        }
+        aux->R = box;
+        box->L = aux;
+        box->R = NULL;
+    }
+    puts("Agregado");
+    return top;
+}
+
 #endif
