@@ -6,8 +6,8 @@ int main() {
     Nodo *lista=NULL,*arbol;
     FILE *original=NULL;
     char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt";
-    listwfile(lista,original,nombre);
-
+    lista = listwfile(lista,original,nombre);
+    mostrar(lista);
 
 
     return 0;

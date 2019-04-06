@@ -26,11 +26,9 @@ Nodo* allocateMem(int dato,char caracter)
 
 void mostrar(Nodo* top){
     if(top != NULL){
-        int i = 1;
         while(top != NULL){
-            printf("Elemento %d de la lista = %d\n",i, top -> dato);
+            printf("Caracter %c aparece = %d\n",top->caracter, top -> dato);
             top = top -> R;
-            i++;
         }
     }else{
         printf("No contiene elementos tu Lista\n");
@@ -152,30 +150,6 @@ int recorrido(Nodo *top) {
     return i;
 }
 
-void ordenar_seleccion(int a[],int n)
-{
-    int indiceMenor;
-    int q=0;
-
-    for(int i=0;i<n-1;i++)
-    {
-        indiceMenor=i;
-        for(int j=i+1;j<n;j++)
-            if(a[j]<a[indiceMenor])
-                indiceMenor=j;
-        if(i!=indiceMenor)
-        {
-            int aux=a[i];
-            a[i]=a[indiceMenor];
-            a[indiceMenor]=aux;
-        }
-    }
-    for (q=0;q<n;q++)
-    {
-        printf("%d\n",a[q]);
-    }
-}
-
 Nodo* altainicio(int dato, Nodo* top,char caracter)
 {
     int t = recorrido(top);
@@ -211,11 +185,33 @@ Nodo* altafinal(int dato, Nodo* top,char caracter) {
     return top;
 }
 
-void listwfile(Nodo *top,FILE *archivo,char *nombre) {
+Nodo *ordenar_seleccion(Nodo *top,int n) {
+    Nodo *aux, *aux2;
+    aux = top;
 
-    int q,s=0,i=0,m=0,e=0,espacio=0,a=0,t=0,p=0,y=0,o=0,k=0,r=0,c=0,l=0;
-    int caracteres[14]={0};
-    char letras[14] = {''};
+    while (aux != NULL) {
+        aux2 = aux->R;
+        while (aux2 != NULL) {
+            if (aux->dato>aux2->dato) {
+                int var = aux->dato;
+                aux->dato = aux2->dato;
+                aux2->dato = var;
+
+                char let = aux->caracter;
+                aux->caracter = aux2->caracter;
+                aux2->caracter = let;
+            }
+            aux2 = aux2->R;
+        }
+        aux = aux->R;
+    }
+    return top;
+}
+
+Nodo *listwfile(Nodo *top,FILE *archivo,char *nombre) {
+
+    int q,caracteres[14]={0};
+    char letras[14] = {'s','i','m','e','+','a','t','p','y','o','k','r','c','l'};
     Nodo *lista=NULL;
     if ((archivo = fopen(nombre, "rt")) == NULL) {
         puts("Este archivo no existe");
@@ -255,14 +251,12 @@ void listwfile(Nodo *top,FILE *archivo,char *nombre) {
             putchar(q);
     }
     fclose(archivo);
-    ordenar_seleccion(caracteres,14);
     for (int j = 0; j < 14; ++j) {
-        lista = altafinal(caracteres[j],lista);
+        lista = altafinal(caracteres[j],lista,letras[j]);
     }
-    mostrar(lista);
-
-
-
+    int tam = recorrido(lista);
+    lista = ordenar_seleccion(lista,tam);
+    return lista;
 }
 
 #endif
