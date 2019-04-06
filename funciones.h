@@ -189,7 +189,7 @@ Nodo *ordenar_seleccion(Nodo *top,int n) {
     Nodo *aux, *aux2;
     aux = top;
 
-    while (aux != NULL) {
+    while (aux->R != NULL) {
         aux2 = aux->R;
         while (aux2 != NULL) {
             if (aux->dato>aux2->dato) {
