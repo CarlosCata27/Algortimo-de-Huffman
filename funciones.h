@@ -185,7 +185,7 @@ Nodo* altafinal(int dato, Nodo* top,char caracter) {
     return top;
 }
 
-Nodo *ordenar_seleccion(Nodo *top,int n) {
+Nodo *ordenar_seleccion(Nodo *top) {
     Nodo *aux, *aux2;
     aux = top;
 
@@ -208,7 +208,7 @@ Nodo *ordenar_seleccion(Nodo *top,int n) {
     return top;
 }
 
-Nodo *listwfile(Nodo *top,FILE *archivo,char *nombre) {
+Nodo *listwfile(FILE *archivo,char *nombre) {
 
     int q,caracteres[14]={0};
     char letras[14] = {'s','i','m','e','+','a','t','p','y','o','k','r','c','l'};
@@ -254,8 +254,7 @@ Nodo *listwfile(Nodo *top,FILE *archivo,char *nombre) {
     for (int j = 0; j < 14; ++j) {
         lista = altafinal(caracteres[j],lista,letras[j]);
     }
-    int tam = recorrido(lista);
-    lista = ordenar_seleccion(lista,tam);
+    lista = ordenar_seleccion(lista);
     return lista;
 }
 
