@@ -12,6 +12,8 @@ int main() {
     lista = listwfile(original,nombre);
     mostrar(lista);
 
+    arbol = buildArbol(lista);
+
 
     return 0;
 }

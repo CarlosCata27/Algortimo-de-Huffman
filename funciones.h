@@ -10,7 +10,7 @@ typedef struct _Nodo{
 
 typedef  struct _Arco{
     int dato;
-    struct _Arco *sig;
+    struct _Arco *R;
 }Arco;
 
 Nodo* allocateMem(int dato,char caracter)
@@ -185,6 +185,29 @@ Nodo* altafinal(int dato, Nodo* top,char caracter) {
     return top;
 }
 
+Nodo* Alta_Dato(Nodo *top, int dato_nuevo, int dato_busqueda){
+    Nodo *aux, *nuevo;
+    aux = top;
+    nuevo = allocateMem(dato_nuevo);
+    if (top == NULL){
+        puts("No existen datos. Intenta de nuevo");
+        return top;
+    } else {
+        while(aux->R != NULL){
+            if (aux->dato == dato_busqueda){
+                nuevo->R = aux->R;
+                nuevo -> L = aux;
+                aux->R = nuevo;
+                nuevo -> R -> L = nuevo;
+                break;
+            }else{
+                aux = aux->R;
+            }
+        }
+    }
+    return top;
+}
+
 Nodo *ordenar_seleccion(Nodo *top) {
     Nodo *aux, *aux2;
     aux = top;
@@ -256,6 +279,43 @@ Nodo *listwfile(FILE *archivo,char *nombre) {
     }
     lista = ordenar_seleccion(lista);
     return lista;
+}
+
+void frecuenciachar(char *s, int *count) {
+    int c = 0;
+
+    while (s[c] != '\0') {
+        if (s[c] >= ' ' && s[c] <= '~' )
+            count[s[c]-'a']++;
+        c++;
+    }
+}
+
+
+
+void find_frequency(char [], int []){
+    char string[100];
+    int c, count[26] = {0};
+
+    printf("Input a string\n");
+    gets_s(string,100);
+
+    frecuenciachar(string, count);
+
+    printf("Character Count\n");
+
+    for (c = 0 ; c < 26 ; c++)
+        printf("%c \t  %d\n", c + 'a', count[c]);
+
+}
+
+Nodo *buildArbol(Nodo *Lista)
+{
+    Nodo *arbol;
+
+
+
+    return arbol;
 }
 
 #endif
