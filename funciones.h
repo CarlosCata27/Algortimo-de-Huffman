@@ -185,10 +185,10 @@ Nodo* altafinal(int dato, Nodo* top,char caracter) {
     return top;
 }
 
-Nodo* Alta_Dato(Nodo *top, int dato_nuevo, int dato_busqueda){
+Nodo* Alta_Dato(Nodo *top, int dato_nuevo, int dato_busqueda,char caracter){
     Nodo *aux, *nuevo;
     aux = top;
-    nuevo = allocateMem(dato_nuevo);
+    nuevo = allocateMem(dato_nuevo,caracter);
     if (top == NULL){
         puts("No existen datos. Intenta de nuevo");
         return top;
@@ -231,47 +231,20 @@ Nodo *ordenar_seleccion(Nodo *top) {
     return top;
 }
 
-Nodo *listwfile(FILE *archivo,char *nombre) {
+/*Nodo *listwfile(FILE *archivo,char *nombre) {
 
-    int q,caracteres[14]={0};
-    char letras[14] = {'s','i','m','e','+','a','t','p','y','o','k','r','c','l'};
+    int q=0,asies=1;
+    int *caracteres = (int*)malloc (asies*sizeof(int));
+    char *letras = (char*)malloc (asies*sizeof(char));
     Nodo *lista=NULL;
     if ((archivo = fopen(nombre, "rt")) == NULL) {
         puts("Este archivo no existe");
         exit(-1);
     }
-    while ((q=fgetc(archivo))!=EOF)
-    {
-        if(q == 's')
-            caracteres[0]++;
-        else if(q == 'i')
-            caracteres[1]++;
-        else if(q == 'm')
-            caracteres[2]++;
-        else if(q == 'e')
-            caracteres[3]++;
-        else if(q == ' ')
-            caracteres[4]++;
-        else if(q == 'a')
-            caracteres[5]++;
-        else if(q == 't')
-            caracteres[6]++;
-        else if(q == 'p')
-            caracteres[7]++;
-        else if(q == 'y')
-            caracteres[8]++;
-        else if(q == 'o')
-            caracteres[9]++;
-        else if(q == 'k')
-            caracteres[10]++;
-        else if(q == 'r')
-            caracteres[11]++;
-        else if(q == 'c')
-            caracteres[12]++;
-        else if(q == 'l')
-            caracteres[13]++;
-        else
-            putchar(q);
+    while (letras[q] != '\0') {
+        if (letras[q] >= ' ' && letras[q] <= '~' )
+            caracteres[letras[q]-'a']++;
+        q++;
     }
     fclose(archivo);
     for (int j = 0; j < 14; ++j) {
@@ -306,7 +279,6 @@ void find_frequency(char [], int []){
 
     for (c = 0 ; c < 26 ; c++)
         printf("%c \t  %d\n", c + 'a', count[c]);
-
 }
 
 Nodo *buildArbol(Nodo *Lista)
@@ -316,6 +288,6 @@ Nodo *buildArbol(Nodo *Lista)
 
 
     return arbol;
-}
+}*/
 
 #endif
