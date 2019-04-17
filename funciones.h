@@ -1,6 +1,10 @@
 #ifndef PRACTICA_4_FUNCIONES_H
 #define PRACTICA_4_FUNCIONES_H
 
+#include <ctype.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 typedef struct _Nodo{
     int dato;
     char caracter;
@@ -190,16 +194,17 @@ Nodo* Alta_Dato(Nodo *top, int dato_nuevo, int dato_busqueda,char caracter){
     aux = top;
     nuevo = allocateMem(dato_nuevo,caracter);
     if (top == NULL){
-        puts("No existen datos. Intenta de nuevo");
+        puts("Lista sin archivos");
         return top;
     } else {
         while(aux->R != NULL){
             if (aux->dato == dato_busqueda){
-                nuevo->R = aux->R;
+
+                /*nuevo->R = aux->R;
                 nuevo -> L = aux;
                 aux->R = nuevo;
                 nuevo -> R -> L = nuevo;
-                break;
+                break;*/
             }else{
                 aux = aux->R;
             }
@@ -231,29 +236,56 @@ Nodo *ordenar_seleccion(Nodo *top) {
     return top;
 }
 
-/*Nodo *listwfile(FILE *archivo,char *nombre) {
+char *textoconvertido() {
+    FILE *archivo = NULL;
+    char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt";
+    char *letras = (char *) malloc(sizeof(char));
+    int i =0,q=0;
+    archivo = fopen(nombre, "rt");
 
-    int q=0,asies=1;
-    int *caracteres = (int*)malloc (asies*sizeof(int));
-    char *letras = (char*)malloc (asies*sizeof(char));
-    Nodo *lista=NULL;
-    if ((archivo = fopen(nombre, "rt")) == NULL) {
+    if (archivo == NULL) {
         puts("Este archivo no existe");
         exit(-1);
     }
-    while (letras[q] != '\0') {
-        if (letras[q] >= ' ' && letras[q] <= '~' )
-            caracteres[letras[q]-'a']++;
-        q++;
+    while (!feof(archivo)) {
+        fscanf_s(archivo, "%c", &letras[i]);
+        letras[i]= tolower(letras[i]);
+        fflush(stdin);
+        i++;
     }
     fclose(archivo);
-    for (int j = 0; j < 14; ++j) {
-        lista = altafinal(caracteres[j],lista,letras[j]);
+
+    while(letras[q]!='\0')
+    {
+        if(letras[q]=='\361'||letras[q]=='\321')
+            letras[q] = 'n';
+        else if(letras[q]=='\212'||letras[q]=='\232')
+            letras[q]= 's';
+        else if(letras[q]=='\216'||letras[q]=='\236')
+            letras[q]= 's';
+        else if(letras[q]=='\237'||letras[q]=='\335'||letras[q]=='\375'||letras[q]=='\377')
+            letras[q]= 'y';
+        else if(letras[q]=='\300'||letras[q]=='\301'||letras[q]=='\302'||letras[q]=='\303'||letras[q]=='\304'||letras[q]=='\305'||letras[q]=='\340'||letras[q]=='\341'||letras[q]=='\342'||letras[q]=='\343'||letras[q]=='\344'||letras[q]=='\345')
+            letras[q]= 'a';
+        else if(letras[q]=='\307'||letras[q]=='\347')
+            letras[q]= 'c';
+        else if(letras[q]=='\310'||letras[q]=='\311'||letras[q]=='\312'||letras[q]=='\313'||letras[q]=='\350'||letras[q]=='\351'||letras[q]=='\352'||letras[q]=='\353')
+            letras[q]='e';
+        else if(letras[q]=='\314'||letras[q]=='\315'||letras[q]=='\316'||letras[q]=='\317'||letras[q]=='\354'||letras[q]=='\355'||letras[q]=='\356'||letras[q]=='\357')
+            letras[q]='i';
+        else if(letras[q]=='\322'||letras[q]=='\323'||letras[q]=='\324'||letras[q]=='\325'||letras[q]=='\326'||letras[q]=='\330'||letras[q]=='\362'||letras[q]=='\363'||letras[q]=='\364'||letras[q]=='\365'||letras[q]=='\366'||letras[q]=='\370')
+            letras[q]='o';
+        else if(letras[q]=='\331'||letras[q]=='\332'||letras[q]=='\333'||letras[q]=='\334'||letras[q]=='\371'||letras[q]=='\372'||letras[q]=='\373'||letras[q]=='\374')
+            letras[q]='u';
+        q++;
     }
-    lista = ordenar_seleccion(lista);
-    return lista;
+    for (int j = 0; letras[j]!='\0'; ++j) {
+        printf("%c",letras[j]);
+    }
+    return letras;
 }
 
+/*
 void frecuenciachar(char *s, int *count) {
     int c = 0;
 
