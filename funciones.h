@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef struct _Nodo{
     int dato;
@@ -213,106 +214,130 @@ Nodo* Alta_Dato(Nodo *top, int dato_nuevo, int dato_busqueda,char caracter){
     return top;
 }
 
-Nodo *ordenar_seleccion(Nodo *top) {
-    Nodo *aux, *aux2;
+Nodo *bajainicio(Nodo* top){
+    Nodo* aux;
+    if(top != NULL){
+        aux = top;
+        top = aux -> R;
+        top->L=NULL;
+        free(aux);
+    }
+    puts("Elmininado\n");
+    return top;
+}
+
+Nodo *bajainterpos(Nodo *top,int posicion)
+{
+    Nodo *aux = NULL, *borrar = NULL;
     aux = top;
-
-    while (aux->R != NULL) {
-        aux2 = aux->R;
-        while (aux2 != NULL) {
-            if (aux->dato>aux2->dato) {
-                int var = aux->dato;
-                aux->dato = aux2->dato;
-                aux2->dato = var;
-
-                char let = aux->caracter;
-                aux->caracter = aux2->caracter;
-                aux2->caracter = let;
+    int t = recorrido(top);
+    if(posicion>t||posicion<0)
+    {
+        puts("Error en el numero de la posicion introducida");
+        return aux;
+    }
+    if(top!=NULL)
+    {
+        if(t>1)
+        {
+            for (int i = 0; i < posicion-2 ; ++i) {
+                aux = aux ->R;
             }
-            aux2 = aux2->R;
+            borrar = aux ->R;
+            aux ->R = borrar->R;
+            borrar->R->L=aux;
+            free(borrar);
         }
-        aux = aux->R;
     }
     return top;
 }
 
-char *textoconvertido() {
-    FILE *archivo = NULL;
-    char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt";
-    char *letras = (char *) malloc(sizeof(char));
-    int i =0,q=0;
-    archivo = fopen(nombre, "rt");
+Nodo *ordenar_seleccion(Nodo *top) {
+    Nodo *aux, *aux2;
+    aux = top;
 
-    if (archivo == NULL) {
-        puts("Este archivo no existe");
-        exit(-1);
-    }
-    while (!feof(archivo)) {
-        fscanf_s(archivo, "%c", &letras[i]);
-        letras[i]= tolower(letras[i]);
-        fflush(stdin);
-        i++;
-    }
-    fclose(archivo);
-
-    while(letras[q]!='\0')
+    if(top!=NULL)
     {
-        if(letras[q]=='\361'||letras[q]=='\321')
-            letras[q] = 'n';
-        else if(letras[q]=='\212'||letras[q]=='\232')
-            letras[q]= 's';
-        else if(letras[q]=='\216'||letras[q]=='\236')
-            letras[q]= 's';
-        else if(letras[q]=='\237'||letras[q]=='\335'||letras[q]=='\375'||letras[q]=='\377')
-            letras[q]= 'y';
-        else if(letras[q]=='\300'||letras[q]=='\301'||letras[q]=='\302'||letras[q]=='\303'||letras[q]=='\304'||letras[q]=='\305'||letras[q]=='\340'||letras[q]=='\341'||letras[q]=='\342'||letras[q]=='\343'||letras[q]=='\344'||letras[q]=='\345')
-            letras[q]= 'a';
-        else if(letras[q]=='\307'||letras[q]=='\347')
-            letras[q]= 'c';
-        else if(letras[q]=='\310'||letras[q]=='\311'||letras[q]=='\312'||letras[q]=='\313'||letras[q]=='\350'||letras[q]=='\351'||letras[q]=='\352'||letras[q]=='\353')
-            letras[q]='e';
-        else if(letras[q]=='\314'||letras[q]=='\315'||letras[q]=='\316'||letras[q]=='\317'||letras[q]=='\354'||letras[q]=='\355'||letras[q]=='\356'||letras[q]=='\357')
-            letras[q]='i';
-        else if(letras[q]=='\322'||letras[q]=='\323'||letras[q]=='\324'||letras[q]=='\325'||letras[q]=='\326'||letras[q]=='\330'||letras[q]=='\362'||letras[q]=='\363'||letras[q]=='\364'||letras[q]=='\365'||letras[q]=='\366'||letras[q]=='\370')
-            letras[q]='o';
-        else if(letras[q]=='\331'||letras[q]=='\332'||letras[q]=='\333'||letras[q]=='\334'||letras[q]=='\371'||letras[q]=='\372'||letras[q]=='\373'||letras[q]=='\374')
-            letras[q]='u';
-        q++;
+        while (aux->R != NULL) {
+            aux2 = aux->R;
+            while (aux2 != NULL) {
+                if (aux->dato>aux2->dato) {
+                    int var = aux->dato;
+                    aux->dato = aux2->dato;
+                    aux2->dato = var;
+
+                    char let = aux->caracter;
+                    aux->caracter = aux2->caracter;
+                    aux2->caracter = let;
+                }
+                aux2 = aux2->R;
+            }
+            aux = aux->R;
+        }
     }
-    for (int j = 0; letras[j]!='\0'; j++) {
-        printf("%c",letras[j]);
+    return top;
+}
+
+char *textoconvertido(char* letras) {
+
+    int q=0;
+
+    if(letras !=NULL)
+    {
+        while(letras[q]!='\0')
+        {
+            letras[q]= tolower(letras[q]);
+            if(letras[q]=='\361'||letras[q]=='\321')
+                letras[q] = 'n';
+            else if(letras[q]=='\300'||letras[q]=='\301'||letras[q]=='\340'||letras[q]=='\341')
+                letras[q]= 'a';
+            else if(letras[q]=='\310'||letras[q]=='\311'||letras[q]=='\350'||letras[q]=='\351')
+                letras[q]='e';
+            else if(letras[q]=='\314'||letras[q]=='\315'||letras[q]=='\354'||letras[q]=='\355')
+                letras[q]='i';
+            else if(letras[q]=='\322'||letras[q]=='\323'||letras[q]=='\326'||letras[q]=='\362'||letras[q]=='\363'||letras[q]=='\366')
+                letras[q]='o';
+            else if(letras[q]=='\331'||letras[q]=='\332'||letras[q]=='\334'||letras[q]=='\371'||letras[q]=='\372'||letras[q]=='\374')
+                letras[q]='u';
+            q++;
+        }
     }
+    puts("normaliza datos\n");
+
     return letras;
 }
 
-/*
-void frecuenciachar(char *s, int *count) {
-    int c = 0;
+Nodo *listapost(char *s) {
+    int c=0;
+    Nodo *lista=NULL;
+    int count[27];
+    char abc[27]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','+'};
+    for (int i = 0; i < 27; ++i) {
+        count[i]=0;
+    }
 
+    puts("asies\n");
     while (s[c] != '\0') {
-        if (s[c] >= ' ' && s[c] <= '~' )
+        if (s[c] >= 'a' && s[c] <= 'z' )
             count[s[c]-'a']++;
+        else if(s[c]==' ')
+            count[26]++;
         c++;
     }
+    puts("contabiliza letras\n");
+
+    for (int j = 0; j < 27; j++) {
+        if (count[j] != 0) {
+            lista = altafinal(count[j], lista, abc[j]);
+        }
+    }
+    puts("crea la lista\n");
+    lista = ordenar_seleccion(lista);
+    puts("ordena lista\n");
+    return lista;
 }
 
-
-
-void find_frequency(char [], int []){
-    char string[100];
-    int c, count[26] = {0};
-
-    printf("Input a string\n");
-    gets_s(string,100);
-
-    frecuenciachar(string, count);
-
-    printf("Character Count\n");
-
-    for (c = 0 ; c < 26 ; c++)
-        printf("%c \t  %d\n", c + 'a', count[c]);
-}
-
+/*
 Nodo *buildArbol(Nodo *Lista)
 {
     Nodo *arbol;
