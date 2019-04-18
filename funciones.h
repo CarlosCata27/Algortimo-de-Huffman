@@ -279,7 +279,7 @@ char *textoconvertido() {
             letras[q]='u';
         q++;
     }
-    for (int j = 0; letras[j]!='\0'; ++j) {
+    for (int j = 0; letras[j]!='\0'; j++) {
         printf("%c",letras[j]);
     }
     return letras;

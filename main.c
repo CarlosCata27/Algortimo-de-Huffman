@@ -3,9 +3,8 @@
 #include "funciones.h"
 
 int main() {
-    //Nodo *lista=NULL,*arbol;
+    Nodo *lista=NULL,*arbol;
     char *texto;
-    int i = 0;
     texto = textoconvertido();
     return 0;
 }
