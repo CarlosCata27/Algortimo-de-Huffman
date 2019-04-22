@@ -13,11 +13,6 @@ typedef struct _Nodo{
     struct _Nodo *R;
 }Nodo;
 
-typedef  struct _Arco{
-    int dato;
-    struct _Arco *R;
-}Arco;
-
 Nodo* allocateMem(int dato,char caracter)
 {
     Nodo* dummy;
@@ -43,14 +38,14 @@ void mostrar(Nodo* top){
 void inOrden (Nodo *top){
     if (top != NULL){
         inOrden (top->L);
-        printf("Elemento = %d\n",top->dato);
+        printf("Elemento %c = %d\n",top->caracter,top->dato);
         inOrden(top->R);
     }
 }
 
 void preOrden (Nodo *top){
     if (top != NULL){
-        printf("Elemento = %d\n",top->dato);
+        printf("Elemento %c = %d\n",top->caracter,top->dato);
         preOrden (top->L);
         preOrden(top->R);
     }
@@ -58,9 +53,9 @@ void preOrden (Nodo *top){
 
 void postOrden (Nodo *top){
     if (top != NULL){
-        preOrden (top->L);
-        preOrden(top->R);
-        printf("Elemento = %d\n",top->dato);
+        postOrden (top->L);
+        postOrden(top->R);
+        printf("Elemento %c = %d\n",top->caracter,top->dato);
     }
 }
 
@@ -136,12 +131,12 @@ void baja(Nodo **top,int dato)
     }
 }
 
-int size(Nodo *top)
+int sizetree(Nodo *top)
 {
     if (top==NULL)
         return 0;
     else
-        return(size(top->L) + 1 + size(top->R));
+        return(sizetree(top->L) + 1 + sizetree(top->R));
 }
 
 int recorrido(Nodo *top) {
@@ -174,12 +169,12 @@ Nodo* altainicio(int dato, Nodo* top,char caracter)
 Nodo* altafinal(int dato, Nodo* top,char caracter) {
     Nodo *box, *aux;
     box = allocateMem(dato,caracter);
+    aux = top;
     if (top==NULL)
     {
-        top = altainicio(dato,top,caracter);
+        top = altainicio(dato,aux,caracter);
     }
     else{
-        aux = top;
         while (aux->R != NULL) {
             aux = aux->R;
         }
@@ -190,7 +185,7 @@ Nodo* altafinal(int dato, Nodo* top,char caracter) {
     return top;
 }
 
-Nodo* Alta_Dato(Nodo *top, int dato_nuevo, int dato_busqueda,char caracter){
+Nodo* altadato(Nodo *top, int dato_nuevo, int dato_busqueda,char caracter){
     Nodo *aux, *nuevo;
     aux = top;
     nuevo = allocateMem(dato_nuevo,caracter);
@@ -200,53 +195,15 @@ Nodo* Alta_Dato(Nodo *top, int dato_nuevo, int dato_busqueda,char caracter){
     } else {
         while(aux->R != NULL){
             if (aux->dato == dato_busqueda){
-
-                /*nuevo->R = aux->R;
+                nuevo->R = aux->R;
                 nuevo -> L = aux;
                 aux->R = nuevo;
                 nuevo -> R -> L = nuevo;
-                break;*/
+                break;
             }else{
                 aux = aux->R;
-            }
-        }
-    }
-    return top;
-}
 
-Nodo *bajainicio(Nodo* top){
-    Nodo* aux;
-    if(top != NULL){
-        aux = top;
-        top = aux -> R;
-        top->L=NULL;
-        free(aux);
-    }
-    puts("Elmininado\n");
-    return top;
-}
-
-Nodo *bajainterpos(Nodo *top,int posicion)
-{
-    Nodo *aux = NULL, *borrar = NULL;
-    aux = top;
-    int t = recorrido(top);
-    if(posicion>t||posicion<0)
-    {
-        puts("Error en el numero de la posicion introducida");
-        return aux;
-    }
-    if(top!=NULL)
-    {
-        if(t>1)
-        {
-            for (int i = 0; i < posicion-2 ; ++i) {
-                aux = aux ->R;
             }
-            borrar = aux ->R;
-            aux ->R = borrar->R;
-            borrar->R->L=aux;
-            free(borrar);
         }
     }
     return top;
@@ -279,9 +236,7 @@ Nodo *ordenar_seleccion(Nodo *top) {
 }
 
 char *textoconvertido(char* letras) {
-
     int q=0;
-
     if(letras !=NULL)
     {
         while(letras[q]!='\0')
@@ -302,21 +257,19 @@ char *textoconvertido(char* letras) {
             q++;
         }
     }
-    puts("normaliza datos\n");
-
     return letras;
 }
 
-Nodo *listapost(char *s) {
+Nodo  *contador(char *s) {
     int c=0;
     Nodo *lista=NULL;
-    int count[27];
+    int *count=(int *)malloc(27*sizeof(int));
     char abc[27]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','+'};
+
     for (int i = 0; i < 27; ++i) {
         count[i]=0;
     }
 
-    puts("asies\n");
     while (s[c] != '\0') {
         if (s[c] >= 'a' && s[c] <= 'z' )
             count[s[c]-'a']++;
@@ -324,27 +277,36 @@ Nodo *listapost(char *s) {
             count[26]++;
         c++;
     }
-    puts("contabiliza letras\n");
 
     for (int j = 0; j < 27; j++) {
         if (count[j] != 0) {
-            lista = altafinal(count[j], lista, abc[j]);
+            lista = altafinal(count[j],lista,abc[j]);
         }
     }
-    puts("crea la lista\n");
     lista = ordenar_seleccion(lista);
-    puts("ordena lista\n");
     return lista;
 }
 
-/*
 Nodo *buildArbol(Nodo *Lista)
 {
-    Nodo *arbol;
+    Nodo *arbol=NULL,*aux,*izq=NULL,*der=NULL,*raiz=NULL;
+    aux = Lista;
+    if(Lista!=NULL)
+    {
+        while(aux->R!=NULL)
+        {
+            alta(&izq,aux->dato,aux->caracter);
+            alta(&der,aux->R->dato,aux->R->caracter);
+            alta(&raiz,aux->dato+aux->R->dato,'*');
+            Lista = altadato(Lista,aux->dato+aux->R->dato,aux->dato,'*');
+            raiz ->R= der;
+            raiz ->L=izq;
+            aux = aux ->R->R;
 
-
-
-    return arbol;
-}*/
+        }
+        arbol = raiz;
+    }
+    return raiz;
+}
 
 #endif
