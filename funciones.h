@@ -15,8 +15,7 @@ typedef struct _Nodo{
 
 Nodo* allocateMem(int dato,char caracter)
 {
-    Nodo* dummy;
-    dummy = (Nodo*)malloc(sizeof(Nodo));
+    Nodo* dummy = (Nodo*)malloc(sizeof(Nodo));
     dummy -> dato = dato;
     dummy -> caracter = caracter;
     dummy -> R = NULL;
@@ -116,7 +115,7 @@ void baja(Nodo **top,int dato)
             aux = (*top);
             if (aux->L==NULL)
             {
-                (*top)=aux->dato;
+                (*top)=aux->R;
             }
             else if(aux->R==NULL)
             {
@@ -170,11 +169,8 @@ Nodo* altafinal(int dato, Nodo* top,char caracter) {
     Nodo *box, *aux;
     box = allocateMem(dato,caracter);
     aux = top;
-    if (top==NULL)
+    if (top!=NULL)
     {
-        top = altainicio(dato,aux,caracter);
-    }
-    else{
         while (aux->R != NULL) {
             aux = aux->R;
         }
@@ -202,7 +198,6 @@ Nodo* altadato(Nodo *top, int dato_nuevo, int dato_busqueda,char caracter){
                 break;
             }else{
                 aux = aux->R;
-
             }
         }
     }
@@ -235,7 +230,7 @@ Nodo *ordenar_seleccion(Nodo *top) {
     return top;
 }
 
-char *textoconvertido(char* letras) {
+void textoconvertido(char* letras) {
     int q=0;
     if(letras !=NULL)
     {
@@ -257,18 +252,10 @@ char *textoconvertido(char* letras) {
             q++;
         }
     }
-    return letras;
 }
 
-Nodo  *contador(char *s) {
+void contador(char s[],int count[]) {
     int c=0;
-    Nodo *lista=NULL;
-    int *count=(int *)malloc(27*sizeof(int));
-    char abc[27]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','+'};
-
-    for (int i = 0; i < 27; ++i) {
-        count[i]=0;
-    }
 
     while (s[c] != '\0') {
         if (s[c] >= 'a' && s[c] <= 'z' )
@@ -277,36 +264,27 @@ Nodo  *contador(char *s) {
             count[26]++;
         c++;
     }
-
-    for (int j = 0; j < 27; j++) {
-        if (count[j] != 0) {
-            lista = altafinal(count[j],lista,abc[j]);
-        }
-    }
-    lista = ordenar_seleccion(lista);
-    return lista;
 }
 
-Nodo *buildArbol(Nodo *Lista)
-{
-    Nodo *arbol=NULL,*aux,*izq=NULL,*der=NULL,*raiz=NULL;
-    aux = Lista;
-    if(Lista!=NULL)
-    {
-        while(aux->R!=NULL)
-        {
-            alta(&izq,aux->dato,aux->caracter);
-            alta(&der,aux->R->dato,aux->R->caracter);
-            alta(&raiz,aux->dato+aux->R->dato,'*');
-            Lista = altadato(Lista,aux->dato+aux->R->dato,aux->dato,'*');
-            raiz ->R= der;
-            raiz ->L=izq;
-            aux = aux ->R->R;
-
+void ordenarbol(Nodo **top,Nodo *elemento) {
+    Nodo *aux, *aux2;
+    if (*top == NULL) {
+        *top = elemento;
+        (*top)->R = NULL;
+    } else {
+        aux = *top;
+        aux2 = NULL;
+        while (aux != NULL && aux->dato < elemento->dato) {
+            aux2 = aux;
+            aux = aux->R;
         }
-        arbol = raiz;
+        elemento->R = aux;
+        if (aux2 != NULL) {
+            aux2->R = elemento;
+        } else {
+            *top = elemento;
+        }
     }
-    return raiz;
 }
 
 #endif
