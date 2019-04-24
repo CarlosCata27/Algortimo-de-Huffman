@@ -50,6 +50,14 @@ void preOrden (Nodo *top){
     }
 }
 
+void preOrdenimpresion (Nodo *top,FILE *out) {
+    if (top != NULL) {
+        fprintf(out,"%d %c ", top->dato, top->caracter);
+        preOrdenimpresion(top->L,out);
+        preOrdenimpresion(top->R,out);
+    }
+}
+
 void postOrden (Nodo *top){
     if (top != NULL){
         postOrden (top->L);
@@ -109,106 +117,6 @@ void baja(Nodo **top,int dato) {
     }
 }
 
-int sizetree(Nodo *top)
-{
-    if (top==NULL)
-        return 0;
-    else
-        return(sizetree(top->L) + 1 + sizetree(top->R));
-}
-
-int recorrido(Nodo *top) {
-    int i = 0;
-    if (top != NULL) {
-        while (top != NULL) {
-            top = top->R;
-            i++;
-        }
-    }
-    return i;
-}
-
-Nodo* altainicio(int dato, Nodo* top,char caracter)
-{
-    int t = recorrido(top);
-    Nodo *box;
-    box = allocateMem(dato,caracter);
-    if(top != NULL){
-        if(t>0)
-        {
-            box->R=top;
-            top->L=box;
-        }
-    }
-    top = box;
-    return top;
-}
-
-Nodo* altafinal(int dato, Nodo* top,char caracter) {
-    Nodo *box, *aux;
-    box = allocateMem(dato,caracter);
-    aux = top;
-    if (top!=NULL)
-    {
-        while (aux->R != NULL) {
-            aux = aux->R;
-        }
-        aux->R = box;
-        box->L = aux;
-        box->R = NULL;
-    }
-    return top;
-}
-
-Nodo* altadato(Nodo *top, int dato_nuevo, int dato_busqueda,char caracter){
-    Nodo *aux, *nuevo;
-    aux = top;
-    nuevo = allocateMem(dato_nuevo,caracter);
-    if (top == NULL){
-        puts("Lista sin archivos");
-        return top;
-    } else {
-        while(aux->R != NULL){
-            if (aux->dato == dato_busqueda){
-                nuevo->R = aux->R;
-                nuevo -> L = aux;
-                aux->R = nuevo;
-                nuevo -> R -> L = nuevo;
-                break;
-            }else{
-                aux = aux->R;
-            }
-        }
-    }
-    return top;
-}
-
-Nodo *ordenar_seleccion(Nodo *top) {
-    Nodo *aux, *aux2;
-    aux = top;
-
-    if(top!=NULL)
-    {
-        while (aux->R != NULL) {
-            aux2 = aux->R;
-            while (aux2 != NULL) {
-                if (aux->dato>aux2->dato) {
-                    int var = aux->dato;
-                    aux->dato = aux2->dato;
-                    aux2->dato = var;
-
-                    char let = aux->caracter;
-                    aux->caracter = aux2->caracter;
-                    aux2->caracter = let;
-                }
-                aux2 = aux2->R;
-            }
-            aux = aux->R;
-        }
-    }
-    return top;
-}
-
 void textoconvertido(char* letras) {
     int q=0;
     if(letras !=NULL)
@@ -245,24 +153,159 @@ void contador(char s[],int count[]) {
     }
 }
 
-void ordenarbol(Nodo **top,Nodo *elemento) {
-    Nodo *aux, *aux2;
-    if (*top == NULL) {
-        *top = elemento;
-    } else {
-        aux = *top;
-        aux2 = NULL;
-        while (aux != NULL && aux->dato < elemento->dato) {
-            aux2 = aux;
-            aux = aux->R;
-        }
-        elemento->R = aux;
-        if (aux2 != NULL) {
-            aux2->R = elemento;
-        } else {
-            *top = elemento;
+void braices(Nodo *raices[],Nodo *lista){
+    Nodo *aux = lista, *izq = NULL, *der = NULL, *raiz = NULL, *aux2 = NULL;
+    int i=0;
+    if (aux != NULL) {
+        while (aux != NULL) {
+            if (aux->R != NULL) {
+                int nv = aux->dato + aux->R->dato;
+                raiz = allocateMem(nv, '*');
+                izq = allocateMem(aux->dato, aux->caracter);
+                der = allocateMem(aux->R->dato, aux->R->caracter);
+                raiz->L = izq;
+                raiz->R = der;
+                raices[i] = raiz;
+            } else {
+                raiz = allocateMem(aux->dato, '*');
+                izq = allocateMem(aux->dato, aux->caracter);
+                raiz->L = izq;
+                raices[i] = raiz;
+                break;
+            }
+            aux = aux->R->R;
+            i++;
         }
     }
+}
+
+void bsubtreesp(Nodo *raices[],Nodo *subarboles[]) {
+    Nodo *raiz = NULL;
+    int j = 0, i = 0;
+    while (raices[j+1] != NULL) {
+        if (raices[j + 1] != NULL) {
+            int nv = raices[j]->dato + raices[j + 1]->dato;
+            raiz = allocateMem(nv, '*');
+            raiz->L = raices[j];
+            raiz->R = raices[j + 1];
+            subarboles[i] = raiz;
+        }
+        j += 2;
+        i++;
+    }
+}
+
+void bsubtreesi(Nodo *raices[],Nodo *subarboles[])
+{
+    Nodo *raiz = NULL;
+    int j = 0, i = 0;
+    while (raices[j+1] != NULL) {
+        if (raices[j + 1] != NULL) {
+            int nv = raices[j]->dato + raices[j + 1]->dato;
+            raiz = allocateMem(nv, '*');
+            raiz->L = raices[j];
+            raiz->R = raices[j + 1];
+            subarboles[i] = raiz;
+        }
+        j += 2;
+        i++;
+    }
+    raiz = allocateMem(raices[j]->dato, '*');
+    raiz->L = raices[j];
+    subarboles[i] = raiz;
+}
+
+int tree(Nodo *top[])
+{
+    int i=0;
+    if(top[i]!=NULL)
+    {
+        while (top[i]!=NULL)
+        {
+            i++;
+        }
+    }
+    return i;
+}
+
+void comprobador(Nodo *raices[],Nodo *guardadito[])
+{
+    int tamanio = tree(raices);
+    if(guardadito!=NULL)
+    {
+        for (int i = 0; guardadito[i]!=NULL ; i++) {
+            guardadito[i]=NULL;
+        }
+    }
+    if(tamanio!=1)
+    {
+        if (tamanio % 2 != 0) {
+            bsubtreesi(raices, guardadito);
+        } else {
+            bsubtreesp(raices, guardadito);
+        }
+    }
+}
+
+int sizetree(Nodo *top)
+{
+    if (top==NULL)
+        return 0;
+    else
+        return(sizetree(top->L) + 1 + sizetree(top->R));
+}
+
+int recorrido(Nodo *top) {
+    int i = 0;
+    if (top != NULL) {
+        while (top != NULL) {
+            top = top->R;
+            i++;
+        }
+    }
+    return i;
+}
+
+Nodo* altainicio(int dato, Nodo* top,char caracter)
+{
+    int t = recorrido(top);
+    Nodo *box;
+    box = allocateMem(dato,caracter);
+    if(top != NULL){
+        if(t>0)
+        {
+            box->R=top;
+            top->L=box;
+        }
+    }
+    top = box;
+    return top;
+}
+
+Nodo *ordenar_seleccion(Nodo *top) {
+    Nodo *aux, *aux2;
+    aux = top;
+
+    if(top!=NULL)
+    {
+        while (aux->R != NULL) {
+            aux2 = aux->R;
+            while (aux2 != NULL) {
+                if (aux->dato>aux2->dato) {
+                    int var = aux->dato;
+                    aux->dato = aux2->dato;
+                    aux2->dato = var;
+
+                    char let = aux->caracter;
+                    aux->caracter = aux2->caracter;
+                    aux2->caracter = let;
+                }
+                aux2 = aux2->R;
+            }
+            aux = aux->R;
+        }
+    }
+    return top;
 }
 
 #endif
