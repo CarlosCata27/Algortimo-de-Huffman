@@ -26,7 +26,7 @@ Nodo* allocateMem(int dato,char caracter)
 void mostrar(Nodo* top){
     if(top != NULL){
         while(top != NULL){
-            printf("Caracter %c aparece = %d\n",top->caracter, top -> dato);
+            printf("Caracter %c >> %d\n",top->caracter, top -> dato);
             top = top -> R;
         }
     }else{
@@ -58,71 +58,50 @@ void postOrden (Nodo *top){
     }
 }
 
-void alta(Nodo ** top, int dato,char caracter)
-{
-    if(*top == NULL){
-        *top = allocateMem(dato,caracter);
-    }
-    else if(dato < (*top)->dato){
-        alta(&(*top)->L,dato,caracter);
-    }
-    else{
-        alta(&(*top)->R,dato,caracter);
+void alta(Nodo ** top, int dato,char caracter) {
+    if (*top == NULL) {
+        *top = allocateMem(dato, caracter);
+    } else if (dato < (*top)->dato) {
+        alta(&(*top)->L, dato, caracter);
+    } else {
+        alta(&(*top)->R, dato, caracter);
     }
 }
 
-void moveleft(Nodo **top)
-{
-    Nodo *a,*p;
-    p=(*top);
-    a=(*top)->L;
-    while(a->R!=NULL)
-    {
-        p=a;
-        a=a->R;
+void moveleft(Nodo **top) {
+    Nodo *a, *p;
+    p = (*top);
+    a = (*top)->L;
+    while (a->R != NULL) {
+        p = a;
+        a = a->R;
     }
-    (*top)->dato=a->dato;
-    if(p==(*top))
-    {
-        p->L=a->L;
+    (*top)->dato = a->dato;
+    if (p == (*top)) {
+        p->L = a->L;
+    } else {
+        p->R = a->L;
     }
-    else
-    {
-        p->R=a->L;
-    }
-    (*top)=a;
+    (*top) = a;
 }
 
-void baja(Nodo **top,int dato)
-{
+void baja(Nodo **top,int dato) {
     Nodo *aux;
-    if(*(top)==NULL)
-    {
+    if (*(top) == NULL) {
         puts("El arbol esta vacio");
-    }
-    else
-    {
-        if(dato<(*top)->dato)
-        {
-            baja(&(*top)->L,dato);
+    } else {
+        if (dato < (*top)->dato) {
+            baja(&(*top)->L, dato);
+        } else if (dato > (*top)->dato) {
+            baja(&(*top)->R, dato);
         }
-        else if(dato>(*top)->dato)
-        {
-            baja(&(*top)->R,dato);
-        }
-        if(dato==(*top)->dato)
-        {
+        if (dato == (*top)->dato) {
             aux = (*top);
-            if (aux->L==NULL)
-            {
-                (*top)=aux->R;
-            }
-            else if(aux->R==NULL)
-            {
-                (*top)=aux->L;
-            }
-            else
-            {
+            if (aux->L == NULL) {
+                (*top) = aux->R;
+            } else if (aux->R == NULL) {
+                (*top) = aux->L;
+            } else {
                 moveleft(&aux);
             }
             free(aux);
@@ -270,7 +249,6 @@ void ordenarbol(Nodo **top,Nodo *elemento) {
     Nodo *aux, *aux2;
     if (*top == NULL) {
         *top = elemento;
-        (*top)->R = NULL;
     } else {
         aux = *top;
         aux2 = NULL;
