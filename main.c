@@ -43,7 +43,7 @@ int main() {
                     aux->L = arbol;
                     aux->R = arbol->sig;
                     arbol = arbol->sig->sig;
-                    InsertarOrden(&arbol, aux);
+                    Buildtree(&arbol, aux);
                 }
                 preOrden(arbol);
                 FILE *out = fopen(salida, "w");

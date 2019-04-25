@@ -154,21 +154,23 @@ void contador(char s[],int count[]) {
     }
 }
 
-void InsertarOrden(Nodo** Cabeza, Nodo *e) {
-    Nodo *p, *a;
-    if (!*Cabeza) {
-        *Cabeza = e;
-        (*Cabeza)->sig = NULL;
+void Buildtree(Nodo** arbol, Nodo *raiz) {
+    Nodo *aux, *aux2;
+    if (*arbol==NULL) {
+        *arbol = raiz;
+        (*arbol)->sig = NULL;
     } else {
-        p = *Cabeza;
-        a = NULL;
-        while (p && p->dato < e->dato) {
-            a = p;
-            p = p->sig;
+        aux = *arbol;
+        aux2 = NULL;
+        while (aux && aux->dato < raiz->dato) {
+            aux2 = aux;
+            aux = aux->sig;
         }
-        e->sig = p;
-        if (a) a->sig = e;
-        else *Cabeza = e;
+        raiz->sig = aux;
+        if (aux2!=NULL)
+            aux2->sig = raiz;
+        else
+            *arbol = raiz;
     }
 }
 
