@@ -14,6 +14,13 @@ typedef struct _Nodo{
     struct _Nodo *sig;
 }Nodo;
 
+typedef struct _Binario{
+    char caracter;
+    long int bits;
+    char nbits;
+    struct _Binario *sig;
+}Binario;
+
 Nodo* allocateMem(int dato,char caracter) {
     Nodo *dummy = (Nodo *) malloc(sizeof(Nodo));
     dummy->dato = dato;
@@ -24,10 +31,38 @@ Nodo* allocateMem(int dato,char caracter) {
     return dummy;
 }
 
+Binario *allocateMemo(long int bits,char caracter,char nbits) {
+    Binario *dummy = (Binario *)malloc(sizeof(Binario));
+    dummy->caracter = caracter;
+    dummy->bits = bits;
+    dummy->nbits=nbits;
+    dummy->sig =NULL;
+}
+
+char *binario ( int n ) {
+    char *code="";
+    if (n != 0) {
+        code = binario(n / 2);
+    }
+    return n;
+}
+
 void mostrar(Nodo* top) {
     if (top != NULL) {
         while (top != NULL) {
             printf("Caracter %c >> %d\n", top->caracter, top->dato);
+            top = top->sig;
+        }
+    } else {
+        printf("No contiene elementos tu Lista\n");
+    }
+}
+
+void mostrarb(Binario* top) {
+    if (top != NULL) {
+        while (top != NULL) {
+            char *codigo = binario(top->bits);
+            printf("Caracter %c >> Bits %d >> Profundidad %d\n", top->caracter, top->bits,top->nbits);
             top = top->sig;
         }
     } else {
@@ -45,7 +80,7 @@ void inOrden (Nodo *top) {
 
 void preOrden (Nodo *top) {
     if (top != NULL) {
-        printf("Elemento %c = %d\n", top->caracter, top->dato);
+        printf("%c >> %d\n", top->caracter, top->dato);
         preOrden(top->L);
         preOrden(top->R);
     }
@@ -144,12 +179,15 @@ void textoconvertido(char* letras) {
 
 void contador(char s[],int count[]) {
     int c = 0;
-
     while (s[c] != '\0') {
         if (s[c] >= 'a' && s[c] <= 'z')
             count[s[c] - 'a']++;
         else if (s[c] == ' ')
             count[26]++;
+        else if(s[c] == '.')
+            count[27]++;
+        else if(s[c] == ',')
+            count[28]++;
         c++;
     }
 }
@@ -172,6 +210,41 @@ void Buildtree(Nodo** arbol, Nodo *raiz) {
         else
             *arbol = raiz;
     }
+}
+
+void Makelist(Binario **Listabin,char caracter,int longitud,int binarios) {
+    Binario *aux, *aux2, *aux3;
+    aux = allocateMemo(binarios, caracter, longitud);
+    if (*Listabin == NULL) {
+        *Listabin = aux;
+        (*Listabin)->sig = NULL;
+    } else
+    {
+        aux2 = *Listabin;
+        aux3 = NULL;
+        while (aux2 && aux2->caracter<aux->caracter)
+        {
+                aux3 = aux2;
+                aux2 = aux2->sig;
+        }
+        aux ->sig=aux2;
+        if(aux3!=NULL)
+            aux3->sig = aux;
+        else
+            *Listabin = aux;
+    }
+}
+
+void Buildbinary(Nodo *Arbol,int longitud,int binarios,Binario **Listabin)
+{
+    if(Arbol->L!=NULL)
+        Buildbinary(Arbol->L,longitud+1,binarios<<1,Listabin);
+
+    if(Arbol->R!=NULL)
+        Buildbinary(Arbol->R,longitud+1,binarios<<1|1,Listabin);
+
+    if(Arbol->L==NULL&&Arbol->R==NULL)
+        Makelist(Listabin,Arbol->caracter,longitud,binarios);
 }
 
 /*void braices(Nodo *raices[],Nodo *lista) {

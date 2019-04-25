@@ -4,9 +4,10 @@
 
 int main() {
     Nodo *lista = NULL, *arbol = NULL;
-    char abc[27] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                    'u', 'v', 'w', 'x', 'y', 'z', '+'};
-    int count[27] = {0}, m;
+    Binario *listacod=NULL;
+    char abc[29] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                    'u', 'v', 'w', 'x', 'y', 'z', '+','.',','};
+    int count[29] = {0}, m;
     char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt", *salida = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\salida.txt";
     char /**salida2 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\codificado.txt",*/ letras[100];
     FILE *archivo = fopen(nombre, "rt")/*, *out2 = fopen(salida2, "w")*/;
@@ -19,12 +20,13 @@ int main() {
     fgets(letras, 100, archivo);
     textoconvertido(letras);
     contador(letras, count);
-    for (int j = 0; j < 27; j++) {
+    for (int j = 0; j < 29; j++) {
         if (count[j] != 0) {
             lista = altainicio(count[j], lista, abc[j]);
         }
     }
     lista = ordenar_seleccion(lista);
+    mostrar(lista);
 
     puts("ALGORITMO DE HUFFMAN\n"
          "1 >> Codificar\n"
@@ -48,6 +50,8 @@ int main() {
                 preOrden(arbol);
                 FILE *out = fopen(salida, "w");
                 preOrdenimpresion(arbol, out);
+                Buildbinary(arbol,0,0,&listacod);
+                mostrarb(listacod);
                 fclose(out);
                 break;
 
