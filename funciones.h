@@ -153,7 +153,7 @@ void contador(char s[],int count[]) {
 }
 
 void braices(Nodo *raices[],Nodo *lista) {
-    Nodo *aux = lista, *izq = NULL, *der = NULL, *raiz = NULL, *aux2 = NULL;
+    Nodo *aux = lista, *izq = NULL, *der = NULL, *raiz = NULL;
     int i = 0;
     if (aux != NULL) {
         while (aux != NULL) {
