@@ -7,8 +7,9 @@ int main() {
     char abc[27] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                     'u', 'v', 'w', 'x', 'y', 'z', '+'};
     int count[27] = {0}, m;
-    char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt",*salida = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\salida.txt" ,letras[100];
-    FILE *archivo = fopen(nombre,"rt"),*out = fopen(salida,"w");
+    char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt", *salida = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\salida.txt";
+    char /**salida2 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\codificado.txt",*/ letras[100];
+    FILE *archivo = fopen(nombre, "rt")/*, *out2 = fopen(salida2, "w")*/;
 
     if (archivo == NULL) {
         puts("Este archivo no existe");
@@ -25,20 +26,48 @@ int main() {
     }
     lista = ordenar_seleccion(lista);
 
-    do {
-        puts("ALGORITMO DE HUFFMAN\n"
-             "1 >> Codificar\n"
-             "2 >> Decodificar\n"
-             "3 >> Mostrar arbol\n"
-             "0 >> Salir\n");
-        scanf_s("%d", &m);
+    puts("ALGORITMO DE HUFFMAN\n"
+         "1 >> Codificar\n"
+         "2 >> Decodificar\n"
+         "0 >> Salir\n");
+    scanf_s("%d", &m);
+    switch (m) {
+        case 1:
+            Nodo *aux = lista/*, *raices[15] = {NULL}, *subarboles[10] = {NULL}, *tree3[5] = {
+                    NULL}, *izq = NULL, *der = NULL, *raiz = NULL*/;
+            if (aux != NULL) {
+                arbol = lista;
+                while (arbol && arbol->sig) {
+                    int nv = arbol->dato + arbol->sig->dato;
+                    aux = allocateMem(nv, '*');
+                    aux->L = arbol;
+                    aux->R = arbol->sig;
+                    arbol = arbol->sig->sig;
+                    InsertarOrden(&arbol, aux);
+                }
+                preOrden(arbol);
+                FILE *out = fopen(salida, "w");
+                preOrdenimpresion(arbol, out);
+                fclose(out);
+                break;
 
-        switch (m) {
-            case 1:
-                Nodo *aux = lista, *raices[15] = {NULL}, *subarboles[10] = {NULL}, *tree3[5]={NULL};
-                int t=0;
-                if (aux != NULL) {
-                    braices(raices, aux);
+                case 2:
+                    break;
+
+                case 0:
+                    puts("CHI CHENOL");
+                break;
+
+                default:
+                    puts("Inserte una opcion valida");
+                break;
+            }
+            fclose(archivo);
+
+            return 0;
+    }
+}
+/*braices(raices, aux);
                     t = tree(raices);
                     do {
                         if (t == 1 && arbol == NULL) {
@@ -65,38 +94,15 @@ int main() {
 
                         t = tree(raices);
                     }while(t!=1);
-
                 }
                 preOrden(arbol);
 
-                if(out==NULL)
+                if(out==NULL && out2 ==NULL)
                 {
                     puts("No se puede escribir en el archivo");
                     exit(-1);
                 }
                 preOrdenimpresion(arbol,out);
+                binarios(lista);
                 fclose(out);
-
-                break;
-
-
-            case 2:
-                break;
-
-            case 3:
-                preOrden(arbol);
-                break;
-
-            case 0:
-                puts("CHI CHENOL");
-                break;
-
-            default:
-                puts("Inserte una opcion valida");
-                break;
-        }
-    } while (m != 0);
-    fclose(archivo);
-
-    return 0;
-}
+                fclose(out2);*/

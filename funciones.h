@@ -11,12 +11,14 @@ typedef struct _Nodo{
     char caracter;
     struct _Nodo *L;
     struct _Nodo *R;
+    struct _Nodo *sig;
 }Nodo;
 
 Nodo* allocateMem(int dato,char caracter) {
     Nodo *dummy = (Nodo *) malloc(sizeof(Nodo));
     dummy->dato = dato;
     dummy->caracter = caracter;
+    dummy->sig=NULL;
     dummy->R = NULL;
     dummy->L = NULL;
     return dummy;
@@ -26,7 +28,7 @@ void mostrar(Nodo* top) {
     if (top != NULL) {
         while (top != NULL) {
             printf("Caracter %c >> %d\n", top->caracter, top->dato);
-            top = top->R;
+            top = top->sig;
         }
     } else {
         printf("No contiene elementos tu Lista\n");
@@ -51,7 +53,7 @@ void preOrden (Nodo *top) {
 
 void preOrdenimpresion (Nodo *top,FILE *out) {
     if (top != NULL) {
-        fprintf(out, "%d %c ", top->dato, top->caracter);
+        fprintf(out,"\r%d %c ",top->dato,top->caracter);
         preOrdenimpresion(top->L, out);
         preOrdenimpresion(top->R, out);
     }
@@ -152,7 +154,25 @@ void contador(char s[],int count[]) {
     }
 }
 
-void braices(Nodo *raices[],Nodo *lista) {
+void InsertarOrden(Nodo** Cabeza, Nodo *e) {
+    Nodo *p, *a;
+    if (!*Cabeza) {
+        *Cabeza = e;
+        (*Cabeza)->sig = NULL;
+    } else {
+        p = *Cabeza;
+        a = NULL;
+        while (p && p->dato < e->dato) {
+            a = p;
+            p = p->sig;
+        }
+        e->sig = p;
+        if (a) a->sig = e;
+        else *Cabeza = e;
+    }
+}
+
+/*void braices(Nodo *raices[],Nodo *lista) {
     Nodo *aux = lista, *izq = NULL, *der = NULL, *raiz = NULL;
     int i = 0;
     if (aux != NULL) {
@@ -237,7 +257,7 @@ void comprobador(Nodo *raices[],Nodo *guardadito[]) {
             bsubtreesp(raices, guardadito);
         }
     }
-}
+}*/
 
 int sizetree(Nodo *top) {
     if (top == NULL)
@@ -258,16 +278,30 @@ int recorrido(Nodo *top) {
 }
 
 Nodo* altainicio(int dato, Nodo* top,char caracter) {
-    int t = recorrido(top);
     Nodo *box;
     box = allocateMem(dato, caracter);
     if (top != NULL) {
-        if (t > 0) {
-            box->R = top;
-            top->L = box;
-        }
+        box->sig = top;
     }
     top = box;
+    return top;
+}
+
+Nodo *altadato(Nodo *top,int dato,int posicion,char caracter) {
+    Nodo *aux, *nuevo;
+    aux = top;
+    nuevo = allocateMem(dato, caracter);
+    if (aux != NULL) {
+        while (aux->sig != NULL) {
+            if (aux->dato == posicion) {
+                nuevo->sig = aux->sig;
+                aux->sig = nuevo;
+                break;
+            } else {
+                aux = aux->sig;
+            }
+        }
+    }
     return top;
 }
 
@@ -276,8 +310,8 @@ Nodo *ordenar_seleccion(Nodo *top) {
     aux = top;
 
     if (top != NULL) {
-        while (aux->R != NULL) {
-            aux2 = aux->R;
+        while (aux->sig != NULL) {
+            aux2 = aux->sig;
             while (aux2 != NULL) {
                 if (aux->dato > aux2->dato) {
                     int var = aux->dato;
@@ -288,13 +322,15 @@ Nodo *ordenar_seleccion(Nodo *top) {
                     aux->caracter = aux2->caracter;
                     aux2->caracter = let;
                 }
-                aux2 = aux2->R;
+                aux2 = aux2->sig;
             }
-            aux = aux->R;
+            aux = aux->sig;
         }
     }
     return top;
 }
+
+
 
 
 
