@@ -9,24 +9,23 @@ int main() {
                     'u', 'v', 'w', 'x', 'y', 'z', '+','.',','};
     int count[29] = {0}, m;
     char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt", *salida = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\salida.txt";
-    char /**salida2 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\codificado.txt",*/ letras[100];
-    FILE *archivo = fopen(nombre, "rt")/*, *out2 = fopen(salida2, "w")*/;
+    char *salida2 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\codificado.txt", frase[100];
+    FILE *archivo = fopen(nombre, "rt"), *out2 = fopen(salida2, "w"),*out = fopen(salida, "w");
 
-    if (archivo == NULL) {
+    if (archivo == NULL||!out||!out2) {
         puts("Este archivo no existe");
         exit(-1);
     }
 
-    fgets(letras, 100, archivo);
-    textoconvertido(letras);
-    contador(letras, count);
+    fgets(frase, 100, archivo);
+    textoconvertido(frase);
+    contador(frase, count);
     for (int j = 0; j < 29; j++) {
         if (count[j] != 0) {
             lista = altainicio(count[j], lista, abc[j]);
         }
     }
     lista = ordenar_seleccion(lista);
-    mostrar(lista);
 
     puts("ALGORITMO DE HUFFMAN\n"
          "1 >> Codificar\n"
@@ -47,11 +46,13 @@ int main() {
                     arbol = arbol->sig->sig;
                     Buildtree(&arbol, aux);
                 }
-                preOrden(arbol);
-                FILE *out = fopen(salida, "w");
+                //preOrden(arbol);
                 preOrdenimpresion(arbol, out);
                 Buildbinary(arbol,0,0,&listacod);
-                mostrarb(listacod);
+                listacod = ordenar_listabinario(listacod);
+                llenarbinario(listacod);
+                imprimirbinariosfile(listacod,out2);
+                fclose(out2);
                 fclose(out);
                 break;
 

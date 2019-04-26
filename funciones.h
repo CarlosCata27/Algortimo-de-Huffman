@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 typedef struct _Nodo{
     int dato;
@@ -17,7 +18,8 @@ typedef struct _Nodo{
 typedef struct _Binario{
     char caracter;
     long int bits;
-    char nbits;
+    int nbits;
+    char *binario;
     struct _Binario *sig;
 }Binario;
 
@@ -31,20 +33,20 @@ Nodo* allocateMem(int dato,char caracter) {
     return dummy;
 }
 
-Binario *allocateMemo(long int bits,char caracter,char nbits) {
+Binario *allocateMemo(long int bits,char caracter,int nbits) {
     Binario *dummy = (Binario *)malloc(sizeof(Binario));
     dummy->caracter = caracter;
     dummy->bits = bits;
     dummy->nbits=nbits;
+    dummy->binario = "";
     dummy->sig =NULL;
 }
 
-char *binario ( int n ) {
-    char *code="";
-    if (n != 0) {
-        code = binario(n / 2);
-    }
-    return n;
+int binario ( int n ) {
+    if(n==0)
+        return n;
+    else
+        return binario(n/2)*10+n%2;
 }
 
 void mostrar(Nodo* top) {
@@ -58,15 +60,39 @@ void mostrar(Nodo* top) {
     }
 }
 
-void mostrarb(Binario* top) {
-    if (top != NULL) {
-        while (top != NULL) {
-            char *codigo = binario(top->bits);
-            printf("Caracter %c >> Bits %d >> Profundidad %d\n", top->caracter, top->bits,top->nbits);
-            top = top->sig;
+void implementarbin(Binario *Arbol) {
+    if (Arbol != NULL) {
+        int t = strlen(Arbol->binario);
+        if (t == (Arbol->nbits - 1)) {
+            char *array = "";
+            sprintf(array,"0%s",Arbol->binario);
+            Arbol->binario = array;
         }
-    } else {
-        printf("No contiene elementos tu Lista\n");
+    }
+}
+
+void llenarbinario(Binario* top) {
+    Binario *aux = top;
+    if (top != NULL) {
+        char *array = "";
+        while (aux->sig != NULL) {
+            int codigo = binario(aux->bits);
+            sprintf(array, "%d", codigo);
+            aux->binario = array;
+            implementarbin(aux);
+            printf("Caracter %c >> Bits  %s >> Profundidad %d\n", aux->caracter, aux->binario, aux->nbits);
+            aux = aux->sig;
+        }
+    }
+}
+
+void imprimirbinariosfile(Binario *Arbol,FILE *out2) {
+    Binario *aux =Arbol;
+    if (Arbol != NULL) {
+        while (aux != NULL) {
+            fprintf(out2,"%s", aux->binario);
+            aux = aux->sig;
+        }
     }
 }
 
@@ -405,8 +431,36 @@ Nodo *ordenar_seleccion(Nodo *top) {
     return top;
 }
 
+Binario *ordenar_listabinario(Binario *top) {
+    Binario *aux, *aux2;
+    aux = top;
+    if (top != NULL) {
+        while (aux->sig != NULL) {
+            aux2 = aux->sig;
+            while (aux2 != NULL) {
+                if (aux->nbits > aux2->nbits) {
+                    int var = aux->bits;
+                    aux->bits = aux2->bits;
+                    aux2->bits = var;
 
+                    char let = aux->caracter;
+                    aux->caracter = aux2->caracter;
+                    aux2->caracter = let;
 
+                    int nbit = aux->nbits;
+                    aux->nbits = aux2->nbits;
+                    aux2->nbits = nbit;
 
+                    char *array = aux->binario;
+                    aux->binario = aux2->binario;
+                    aux2->binario = array;
+                }
+                aux2 = aux2->sig;
+            }
+            aux = aux->sig;
+        }
+    }
+    return top;
+}
 
 #endif
