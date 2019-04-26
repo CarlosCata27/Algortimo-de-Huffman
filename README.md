@@ -8,3 +8,7 @@ Build 0.5.2
 Build 0.6.0
 --Arbol listo
 --Codificacion en binario, casi lista, solo falta mostrar el numero binario
+
+Build 0.6.2
+--Codificacion en binario lista
+--Falta agregar la funcion que guardara en un char *array para sacar la codificacion en ASCII extendido
