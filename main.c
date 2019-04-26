@@ -4,15 +4,15 @@
 
 int main() {
     Nodo *lista = NULL, *arbol = NULL;
-    Binario *listacod=NULL;
+
     char abc[29] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                    'u', 'v', 'w', 'x', 'y', 'z', '+','.',','};
+                    'u', 'v', 'w', 'x', 'y', 'z', '+', '.', ','};
     int count[29] = {0}, m;
     char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt", *salida = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\salida.txt";
     char *salida2 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\codificado.txt", frase[100];
-    FILE *archivo = fopen(nombre, "rt"), *out2 = fopen(salida2, "w"),*out = fopen(salida, "w");
+    FILE *archivo = fopen(nombre, "rt"), *out2 = fopen(salida2, "w"), *out = fopen(salida, "w");
 
-    if (archivo == NULL||!out||!out2) {
+    if (archivo == NULL || !out || !out2) {
         puts("Este archivo no existe");
         exit(-1);
     }
@@ -34,8 +34,8 @@ int main() {
     scanf_s("%d", &m);
     switch (m) {
         case 1:
-            Nodo *aux = lista/*, *raices[15] = {NULL}, *subarboles[10] = {NULL}, *tree3[5] = {
-                    NULL}, *izq = NULL, *der = NULL, *raiz = NULL*/;
+            Nodo *aux = lista;
+            Binario *listacod = NULL;
             if (aux != NULL) {
                 arbol = lista;
                 while (arbol && arbol->sig) {
@@ -47,13 +47,12 @@ int main() {
                     Buildtree(&arbol, aux);
                 }
                 //preOrden(arbol);
-                preOrdenimpresion(arbol, out);
-                Buildbinary(arbol,0,0,&listacod);
-                listacod = ordenar_listabinario(listacod);
-                llenarbinario(listacod);
-                imprimirbinariosfile(listacod,out2);
-                fclose(out2);
-                fclose(out);
+                //preOrdenimpresion(arbol, out);
+
+                Buildbinary(arbol, 0, 0, &listacod);
+                mostrarbin(listacod);
+                ordenar_listabinario(listacod);
+                //fclose(out);
                 break;
 
                 case 2:
@@ -72,42 +71,3 @@ int main() {
             return 0;
     }
 }
-/*braices(raices, aux);
-                    t = tree(raices);
-                    do {
-                        if (t == 1 && arbol == NULL) {
-                            arbol = raices[0];
-                            break;
-                        } else
-                            comprobador(raices, subarboles);
-                        t = tree(subarboles);
-
-                        if (t == 1 && arbol == NULL) {
-                            arbol = subarboles[0];
-                            break;
-                        } else
-                            comprobador(subarboles, tree3);
-                        t = tree(tree3);
-
-                        if(t==1&&arbol==NULL)
-                        {
-                            arbol = tree3[0];
-                            break;
-                        }
-                        else
-                            comprobador(tree3,raices);
-
-                        t = tree(raices);
-                    }while(t!=1);
-                }
-                preOrden(arbol);
-
-                if(out==NULL && out2 ==NULL)
-                {
-                    puts("No se puede escribir en el archivo");
-                    exit(-1);
-                }
-                preOrdenimpresion(arbol,out);
-                binarios(lista);
-                fclose(out);
-                fclose(out2);*/

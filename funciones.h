@@ -60,37 +60,40 @@ void mostrar(Nodo* top) {
     }
 }
 
-void implementarbin(Binario *Arbol) {
-    if (Arbol != NULL) {
-        int t = strlen(Arbol->binario);
-        if (t == (Arbol->nbits - 1)) {
-            char *array = "";
-            sprintf(array,"0%s",Arbol->binario);
-            Arbol->binario = array;
-        }
-    }
-}
-
-void llenarbinario(Binario* top) {
-    Binario *aux = top;
+/*void mostrarbin(Binario *top)
+{
+    Binario*aux =top;
     if (top != NULL) {
-        char *array = "";
         while (aux->sig != NULL) {
-            int codigo = binario(aux->bits);
-            sprintf(array, "%d", codigo);
-            aux->binario = array;
-            implementarbin(aux);
             printf("Caracter %c >> Bits  %s >> Profundidad %d\n", aux->caracter, aux->binario, aux->nbits);
             aux = aux->sig;
         }
     }
+}*/
+
+char *implementarbin(char *Arbol) {
+    char *array = "";
+    sprintf(array, "0%s",Arbol);
+    Arbol = array;
+    return Arbol;
 }
 
-void imprimirbinariosfile(Binario *Arbol,FILE *out2) {
-    Binario *aux =Arbol;
-    if (Arbol != NULL) {
-        while (aux != NULL) {
-            fprintf(out2,"%s", aux->binario);
+void mostrarbin(Binario *top) {
+    Binario *aux;
+    char *array = NULL;
+    int codigo=0, t=0;
+    if (top != NULL) {
+        aux = top;
+        while (aux->sig != NULL) {
+            array = "";
+            codigo = binario(aux->bits);
+            sprintf(array, "%d", codigo);
+            t = strlen(array);
+            if (t == (aux->nbits - 1)) {
+                aux->binario = implementarbin(array);
+            } else if (t == aux->nbits)
+                aux->binario = array;
+            printf("Caracter %c >> Bits  %s >> Profundidad %d\n", aux->caracter, aux->binario, aux->nbits);
             aux = aux->sig;
         }
     }
@@ -240,6 +243,7 @@ void Buildtree(Nodo** arbol, Nodo *raiz) {
 
 void Makelist(Binario **Listabin,char caracter,int longitud,int binarios) {
     Binario *aux, *aux2, *aux3;
+
     aux = allocateMemo(binarios, caracter, longitud);
     if (*Listabin == NULL) {
         *Listabin = aux;
@@ -388,24 +392,6 @@ Nodo* altainicio(int dato, Nodo* top,char caracter) {
     return top;
 }
 
-Nodo *altadato(Nodo *top,int dato,int posicion,char caracter) {
-    Nodo *aux, *nuevo;
-    aux = top;
-    nuevo = allocateMem(dato, caracter);
-    if (aux != NULL) {
-        while (aux->sig != NULL) {
-            if (aux->dato == posicion) {
-                nuevo->sig = aux->sig;
-                aux->sig = nuevo;
-                break;
-            } else {
-                aux = aux->sig;
-            }
-        }
-    }
-    return top;
-}
-
 Nodo *ordenar_seleccion(Nodo *top) {
     Nodo *aux, *aux2;
     aux = top;
@@ -431,10 +417,10 @@ Nodo *ordenar_seleccion(Nodo *top) {
     return top;
 }
 
-Binario *ordenar_listabinario(Binario *top) {
+void ordenar_listabinario(Binario *top) {
     Binario *aux, *aux2;
     aux = top;
-    if (top != NULL) {
+    if (aux != NULL) {
         while (aux->sig != NULL) {
             aux2 = aux->sig;
             while (aux2 != NULL) {
@@ -447,9 +433,9 @@ Binario *ordenar_listabinario(Binario *top) {
                     aux->caracter = aux2->caracter;
                     aux2->caracter = let;
 
-                    int nbit = aux->nbits;
+                    int prof = aux->nbits;
                     aux->nbits = aux2->nbits;
-                    aux2->nbits = nbit;
+                    aux2->nbits = prof;
 
                     char *array = aux->binario;
                     aux->binario = aux2->binario;
@@ -460,7 +446,6 @@ Binario *ordenar_listabinario(Binario *top) {
             aux = aux->sig;
         }
     }
-    return top;
 }
 
 #endif
