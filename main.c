@@ -3,11 +3,11 @@
 #include "funciones.h"
 
 
-Binario *listacod = NULL;
+
 
 int main() {
     Nodo *lista = NULL, *arbol = NULL;
-    Binario *ref;
+    Binario *listacod = NULL;
 
     char abc[29] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                     'u', 'v', 'w', 'x', 'y', 'z', '+', '.', ','};
@@ -15,7 +15,7 @@ int main() {
     char *nombre = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\original.txt", *salida = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\salida.txt";
     char *salida2 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\codificado.txt", frase[100], *codbinario = "";
     char *salida3 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\binarios.txt";
-    FILE *archivo = fopen(nombre, "rt"), *out2 = fopen(salida2, "w"), *out = fopen(salida, "w"), *out3 = fopen(salida3,"w");
+    FILE *archivo = fopen(nombre, "rt"), *out2 = fopen(salida2, "w"), *out = fopen(salida, "w"), *out3 = fopen(salida3,"w"),*ropen = fopen(salida3,"rt");
 
     if (archivo == NULL || !out || !out2) {
         puts("Este archivo no existe");
@@ -39,7 +39,7 @@ int main() {
     scanf_s("%d", &m);
     switch (m) {
         case 1:
-            Nodo *aux = lista;
+            Nodo *aux;
             arbol = lista;
             while (arbol && arbol->sig) {
                 int nv = arbol->dato + arbol->sig->dato;
@@ -54,7 +54,7 @@ int main() {
             mostrarbin(listacod);
             obtbin(listacod,frase,out3);
             fclose(out3);
-            FILE *ropen = fopen(salida3,"rt");
+
             fgets(codbinario,500,ropen);
             fclose(ropen);
             while (strlen(codbinario)%8!=0)
