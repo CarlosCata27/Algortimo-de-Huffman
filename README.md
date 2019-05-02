@@ -16,3 +16,10 @@ Build 0.6.2
 Build 0.6.3
 --Numeros binarios impresos correctamente, dependiendo de sun posicion en el arbol
 ++La funcion que imprime correctamente, al entrar recorre las referencias y las pierde
+
+Build 0.6.5
+--Numeros binarios impresos de manera correcta segun la palabra en un archivo
+++Falta agregar un paso para obtener toda esa cadena del archivo donde se guardo
+
+Build 1.0.0
+--Codificacion Terminada
