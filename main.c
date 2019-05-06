@@ -23,7 +23,7 @@ int main() {
             FILE *archivo = fopen(nombre, "rt"), *out2 = fopen(salida2, "w"), *out = fopen(salida, "w"), *out3 = fopen(
                     salida3, "w"), *ropen = fopen(salida3, "rt");
 
-            if (archivo == NULL || !out || !out2) {
+            if (!archivo || !out || !out2) {
                 puts("Este archivo no existe");
                 exit(-1);
             }
@@ -67,7 +67,7 @@ int main() {
                 }
                 caracteres[i] = toDecimal(atoi(byte));
             }
-            for (int k = 0; k < (strlen(codbinario) / 8); ++k) {
+            for (int k = 0; k < (strlen(codbinario) / 8); k++) {
                 fprintf(out2, "%c", caracteres[k]);
                 printf("%d | %c\n", caracteres[k], caracteres[k]);
             }
@@ -77,6 +77,27 @@ int main() {
             break;
 
         case 2:
+            Nodo *arboldec=NULL;
+            int i = 0, c;
+            FILE *farbol = fopen(salida, "rt"), *ffrasec = fopen(salida2, "rt");
+            if (!farbol || !ffrasec) {
+                puts("Error en la apertura de los archivos");
+                exit(-1);
+            }
+            while ((c = fgetc(farbol)) != EOF) {
+                if (c == '\n')
+                    i++;
+            }
+            int *valor = (int *)malloc(i * sizeof(int));
+            char *letter = (char *)malloc(i * sizeof(char));
+            rewind(farbol);
+            i=0;
+            while (!feof(farbol)) {
+                fscanf(farbol, "%d %c ", &valor[i],&letter[i]);
+                alta(&arboldec,valor[i],letter[i]);
+                i++;
+            }
+            preOrden(arboldec);
             break;
 
         case 0:

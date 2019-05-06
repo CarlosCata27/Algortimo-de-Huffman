@@ -130,7 +130,7 @@ void preOrden (Nodo *top) {
 void preOrdenimpresion (Nodo *top,FILE *out) {
     if (top != NULL) {
         printf("%c >> %d\n", top->caracter, top->dato);
-        fprintf(out,"\r%d %c ",top->dato,top->caracter);
+        fprintf(out,"%d %c \n",top->dato,top->caracter);
         preOrdenimpresion(top->L, out);
         preOrdenimpresion(top->R, out);
     }

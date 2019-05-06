@@ -2,24 +2,31 @@
 Algoritmo de Huffman mediante Arboles y Listas 
 
 Build 0.5.2
---Agregadas las funciones mediante las cuales se creara la lista, y el arbol.
+**Agregadas las funciones mediante las cuales se creara la lista, y el arbol.
 --Imprime en un archivo de salida
 
 Build 0.6.0
---Arbol listo
-++odificacion en binario, casi lista, solo falta mostrar el numero binario
+**Arbol listo
+--Codificacion en binario, casi lista, solo falta mostrar el numero binario
 
 Build 0.6.2
---Codificacion en binario lista
-++alta agregar la funcion que guardara en un char *array para sacar la codificacion en ASCII extendido
+**Codificacion en binario lista
+--Alta agregar la funcion que guardara en un char *array para sacar la codificacion en ASCII extendido
 
 Build 0.6.3
---Numeros binarios impresos correctamente, dependiendo de sun posicion en el arbol
-++La funcion que imprime correctamente, al entrar recorre las referencias y las pierde
+**Numeros binarios impresos correctamente, dependiendo de sun posicion en el arbol
+--La funcion que imprime correctamente, al entrar recorre las referencias y las pierde
 
 Build 0.6.5
---Numeros binarios impresos de manera correcta segun la palabra en un archivo
-++Falta agregar un paso para obtener toda esa cadena del archivo donde se guardo
+**Numeros binarios impresos de manera correcta segun la palabra en un archivo
+--Falta agregar un paso para obtener toda esa cadena del archivo donde se guardo
 
 Build 1.0.0
---Codificacion Terminada
+**Codificacion Terminada
+
+Build 1.0.1
+**Comenzando con la decodificacion
+++Se realizo el conteo de filas
+++Se realizaron modificaciones a las funciones de codificacion
+++Guarda la informacion del arbol codificado en dos arreglos diferentes, para despues dar de alta el arbol e imprimirlo
+**Falta verificar si el arbol debe de darse de alta a partir de el orden en que se nos da el archivo
