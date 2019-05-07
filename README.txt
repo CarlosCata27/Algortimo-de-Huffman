@@ -29,4 +29,8 @@ Build 1.0.1
 ++Se realizo el conteo de filas
 ++Se realizaron modificaciones a las funciones de codificacion
 ++Guarda la informacion del arbol codificado en dos arreglos diferentes, para despues dar de alta el arbol e imprimirlo
-**Falta verificar si el arbol debe de darse de alta a partir de el orden en que se nos da el archivo
+--Falta verificar si el arbol debe de darse de alta a partir de el orden en que se nos da el archivo
+
+Build 1.0.1.1
+**Cambiar la manera en la que interactua el programa, de manera en que trate como un proceso diferente la codificacion y la decodificacion, en el caso de la decodificacion a partir del arbol, al momento de leer del archivo guardar una lista pero excluyendo a los que son raices, con la lista hacer el mismo proceso que en la codificacion, crear el arbol,tabla binaria.
+**Una vez teniendo la tabla binaria. Abrir el archivo de frase codificada, sacando los numeros y guardarlos en un arreglo, mediante una funcion convertirlos a binarios e ir completando ceros a la izquierda si la strlen es < a 8, despues de completarlos, guardarlos en un nuevo arreglo,donde se realizara la comparacion por medio de la tabla de binarios para ir poniendo letra por letra. hasta terminar el codigo binario, y si sobran 0000 excluirlos

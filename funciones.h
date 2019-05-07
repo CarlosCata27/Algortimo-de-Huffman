@@ -90,7 +90,7 @@ void mostrarbin(Binario *top) {
     }
 }
 
-void obtbin(Binario *listaBin, char frase[],FILE *out3) {
+void obtbinarch(Binario *listaBin, char frase[],FILE *out3) {
     Binario *aux;
     char *array="";
     if (listaBin != NULL) {
@@ -103,6 +103,27 @@ void obtbin(Binario *listaBin, char frase[],FILE *out3) {
                         sprintf(array, "0%d", aux->binario);
 
                     fprintf(out3, "%s", array);
+                    break;
+                }
+                aux = aux->sig;
+            }
+        }
+    }
+}
+
+void obtbin(Binario *listaBin, char frase[]) {
+    Binario *aux;
+    char *array="";
+    if (listaBin != NULL) {
+        for (int i = 0; i < strlen(frase); i++) {
+            aux = listaBin;
+            while (aux != NULL) {
+                if (aux->caracter == frase[i]) {
+                    sprintf(array, "%d", aux->binario);
+                    if (strlen(array) == (aux->nbits - 1))
+                        sprintf(array, "0%d", aux->binario);
+
+                    printf("%s", array);
                     break;
                 }
                 aux = aux->sig;
@@ -130,7 +151,7 @@ void preOrden (Nodo *top) {
 void preOrdenimpresion (Nodo *top,FILE *out) {
     if (top != NULL) {
         printf("%c >> %d\n", top->caracter, top->dato);
-        fprintf(out,"%d %c \n",top->dato,top->caracter);
+        fprintf(out,"%d %c ",top->dato,top->caracter);
         preOrdenimpresion(top->L, out);
         preOrdenimpresion(top->R, out);
     }
@@ -321,6 +342,21 @@ Nodo* altainicio(int dato, Nodo* top,char caracter) {
     }
     top = box;
     return top;
+}
+
+Nodo* altafinal(int dato, Nodo* frente,char caracter) {
+    Nodo *box, *aux;
+    box = allocateMem(dato, caracter);
+    if (frente == NULL) {
+        return box;
+    } else {
+        aux = frente;
+        while (aux->sig != NULL) {
+            aux = aux->sig;
+        }
+        aux->sig = box;
+    }
+    return frente;
 }
 
 Nodo *ordenar_seleccion(Nodo *top) {

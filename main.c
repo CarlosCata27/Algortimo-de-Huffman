@@ -50,9 +50,8 @@ int main() {
             preOrdenimpresion(arbol, out);
             Buildbinary(arbol, 0, 0, &listacod, 0);
             mostrarbin(listacod);
-            obtbin(listacod, frase, out3);
+            obtbinarch(listacod, frase, out3);
             fclose(out3);
-
             fgets(codbinario, 500, ropen);
             fclose(ropen);
             while (strlen(codbinario) % 8 != 0) {
@@ -77,27 +76,33 @@ int main() {
             break;
 
         case 2:
-            Nodo *arboldec=NULL;
-            int i = 0, c;
+            Nodo *arboldec = NULL, *listaaux = NULL;
+            Binario *listadec=NULL;
+            int i = 0, c,j=0;
             FILE *farbol = fopen(salida, "rt"), *ffrasec = fopen(salida2, "rt");
             if (!farbol || !ffrasec) {
                 puts("Error en la apertura de los archivos");
                 exit(-1);
             }
             while ((c = fgetc(farbol)) != EOF) {
-                if (c == '\n')
+                if (c == ' ')
                     i++;
             }
-            int *valor = (int *)malloc(i * sizeof(int));
-            char *letter = (char *)malloc(i * sizeof(char));
+            i /= 2;
+            int *valor = (int *) malloc(i * sizeof(int));
+            char *letter = (char *) malloc(i * sizeof(char));
             rewind(farbol);
-            i=0;
             while (!feof(farbol)) {
-                fscanf(farbol, "%d %c ", &valor[i],&letter[i]);
-                alta(&arboldec,valor[i],letter[i]);
-                i++;
+                fscanf(farbol, "%d %c ", &valor[j], &letter[j]);
+                listaaux = altafinal(valor[j], listaaux, letter[j]);
+                alta(&arboldec,valor[j],letter[j]);
+                j++;
             }
-            preOrden(arboldec);
+            fclose(farbol);
+            //mostrar(listaaux);
+            //preOrden(arboldec);
+            Buildbinary(arboldec, 0, 0, &listadec, 0);
+            mostrarbin(listadec);
             break;
 
         case 0:
