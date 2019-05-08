@@ -34,3 +34,9 @@ Build 1.0.1
 Build 1.0.1.1
 **Cambiar la manera en la que interactua el programa, de manera en que trate como un proceso diferente la codificacion y la decodificacion, en el caso de la decodificacion a partir del arbol, al momento de leer del archivo guardar una lista pero excluyendo a los que son raices, con la lista hacer el mismo proceso que en la codificacion, crear el arbol,tabla binaria.
 **Una vez teniendo la tabla binaria. Abrir el archivo de frase codificada, sacando los numeros y guardarlos en un arreglo, mediante una funcion convertirlos a binarios e ir completando ceros a la izquierda si la strlen es < a 8, despues de completarlos, guardarlos en un nuevo arreglo,donde se realizara la comparacion por medio de la tabla de binarios para ir poniendo letra por letra. hasta terminar el codigo binario, y si sobran 0000 excluirlos
+
+Build 1.0.2
+**Crea la lista a partir de la cual realizara la reconstruccion del arbol
+**Realiza la reconstruccion del arbol a partir de la lectura del archivo
+**Guarda en un arreglo dinamico todos los caracteres que estan en binario
+**Implementada la funcion con la cual recorrera el arbol y mostrara los codigos binarios

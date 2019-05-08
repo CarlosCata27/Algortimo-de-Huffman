@@ -327,11 +327,29 @@ int recorrido(Nodo *top) {
     int i = 0;
     if (top != NULL) {
         while (top != NULL) {
-            top = top->R;
+            top = top->sig;
             i++;
         }
     }
     return i;
+}
+
+char  *decode_file(Nodo *root, char *s) {
+    char *ans = "";
+    Nodo *curr = root;
+    for (int i = 0; i < strlen(s); i++) {
+        if (s[i] == '0')
+            curr = curr->L;
+        else
+            curr = curr->R;
+
+        // reached leaf node
+        if (curr->L == NULL && curr->R == NULL) {
+            ans += curr->dato;
+            curr = root;
+        }
+    }
+    return strcat(ans,"\0");
 }
 
 Nodo* altainicio(int dato, Nodo* top,char caracter) {
@@ -382,6 +400,37 @@ Nodo *ordenar_seleccion(Nodo *top) {
         }
     }
     return top;
+}
+
+Nodo *Ayudantexd (char letra[],int pre[], int* preIndex, int low, int high, int size){
+    if (*preIndex >= size || low > high) {
+        return NULL;
+    }
+
+    Nodo *root;
+    root = allocateMem(pre[*preIndex],letra[*preIndex]);
+    *preIndex = *preIndex + 1;
+
+    if (low == high) {
+        return root;
+    }
+
+    int i;
+    for (i = low; i <= high; i++ ) {
+        if (pre[i] > root->dato) {
+            break;
+        }
+    }
+
+    root->L = Ayudantexd (letra, pre, preIndex, *preIndex, i - 1, size );
+    root->R = Ayudantexd (letra, pre, preIndex, i, high, size );
+
+    return root;
+}
+
+Nodo *Reconstruirtree(char letra[], int pre[], int size){
+    int preIndex = 0;
+    return Ayudantexd (letra ,pre, &preIndex, 0, size - 1, size);
 }
 
 #endif
