@@ -40,3 +40,7 @@ Build 1.0.2
 **Realiza la reconstruccion del arbol a partir de la lectura del archivo
 **Guarda en un arreglo dinamico todos los caracteres que estan en binario
 **Implementada la funcion con la cual recorrera el arbol y mostrara los codigos binarios
+
+Build 1.0.3
+**Implementada la funcion que decodificara el arbol
+--La funcion pierde referencias

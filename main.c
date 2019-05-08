@@ -83,8 +83,9 @@ int main() {
         case 2:
             Nodo *arboldec = NULL, *listaaux = NULL;
             int i = 0, c, j = 0;
-            FILE *farbol = fopen(salida, "rt"), *ffrasec = fopen(salida2, "rb");
-            if (!farbol || !ffrasec) {
+            char *frasesuculenta="";
+            FILE *farbol = fopen(salida, "rt"), *ffrasec = fopen(salida2, "rb"),*jaja = fopen(salida3,"w+");;
+            if (!farbol || !ffrasec||!jaja) {
                 puts("Error en la apertura de los archivos");
                 exit(-1);
             }
@@ -96,6 +97,15 @@ int main() {
                 digitos[l] = a;
             }
             fclose(ffrasec);
+            char arreglo[500];
+            for (int m = 0; m < c ; ++m) {
+                int ayuda = binario(digitos[m]);
+                char *dormir = "";
+                sprintf(dormir,"%08d",ayuda);
+                fprintf(jaja,"%s",dormir);
+            }
+            rewind(jaja);
+            fgets(arreglo,500,jaja);
             while ((c = fgetc(farbol)) != EOF) {
                 if (c == ' ')
                     i++;
@@ -112,7 +122,10 @@ int main() {
             fclose(farbol);
             arboldec = Reconstruirtree(letter, valor, recorrido(listaaux));
             preOrden(arboldec);
-
+            puts(arreglo);
+            Nodo *auz23r = arboldec;
+            frasesuculenta = decodificador(auz23r,arreglo);
+            puts(frasesuculenta);
             break;
 
         case 0:

@@ -113,16 +113,12 @@ void obtbinarch(Binario *listaBin, char frase[],FILE *out3) {
 
 void obtbin(Binario *listaBin, char frase[]) {
     Binario *aux;
-    char *array="";
+    char *array = "";
     if (listaBin != NULL) {
         for (int i = 0; i < strlen(frase); i++) {
             aux = listaBin;
             while (aux != NULL) {
                 if (aux->caracter == frase[i]) {
-                    sprintf(array, "%d", aux->binario);
-                    if (strlen(array) == (aux->nbits - 1))
-                        sprintf(array, "0%d", aux->binario);
-
                     printf("%s", array);
                     break;
                 }
@@ -334,22 +330,25 @@ int recorrido(Nodo *top) {
     return i;
 }
 
-char  *decode_file(Nodo *root, char *s) {
+char  *decodificador(Nodo *root, char *s) {
+    Nodo *temp=root;
     char *ans = "";
-    Nodo *curr = root;
-    for (int i = 0; i < strlen(s); i++) {
-        if (s[i] == '0')
-            curr = curr->L;
-        else
-            curr = curr->R;
-
-        // reached leaf node
-        if (curr->L == NULL && curr->R == NULL) {
-            ans += curr->dato;
-            curr = root;
+    int i = 0;
+    while (s[i] != '\0') {
+        if (s[i] == '1') {
+            puts("R");
+            temp = temp->R;
+        } else {
+            puts("L");
+            temp = temp->L;
         }
+        if (!(temp->L)&&!(temp->R)) {
+            sprintf(ans, "%c", temp->caracter);
+            temp = root;
+        }
+        i++;
     }
-    return strcat(ans,"\0");
+    return (strcat(ans, "\0"));
 }
 
 Nodo* altainicio(int dato, Nodo* top,char caracter) {
@@ -406,24 +405,19 @@ Nodo *Ayudantexd (char letra[],int valores[], int* Indice, int min, int max, int
     if (*Indice >= size || min > max) {
         return NULL;
     }
-
     Nodo *raiz = allocateMem(valores[*Indice], letra[*Indice]);
     *Indice = *Indice + 1;
-
     if (min == max) {
         return raiz;
     }
-
     int i;
     for (i = min; i <= max; i++) {
         if (valores[i] > raiz->dato) {
             break;
         }
     }
-
     raiz->L = Ayudantexd(letra, valores, Indice, *Indice, i - 1, size);
     raiz->R = Ayudantexd(letra, valores, Indice, i, max, size);
-
     return raiz;
 }
 
