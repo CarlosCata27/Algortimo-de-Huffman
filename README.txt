@@ -44,3 +44,6 @@ Build 1.0.2
 Build 1.0.3
 **Implementada la funcion que decodificara el arbol
 --La funcion pierde referencias
+
+Final 1.0
+**Algoritmo terminado de manera correcta, por el momento no existen fallos en él.
