@@ -8,6 +8,7 @@ int main() {
     char *salida = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\arbol_codificado.txt";
     char *salida2 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\frase_codificada.bin";
     char *salida3 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\frase_binaria.txt";
+    char *salida4 = "E:\\Escuela\\Estructura_de_datos\\Practica 4\\frase_bien_chida.txt";
 
     puts("ALGORITMO DE HUFFMAN\n"
          "1 >> Codificar\n"
@@ -83,9 +84,8 @@ int main() {
         case 2:
             Nodo *arboldec = NULL, *listaaux = NULL;
             int i = 0, c, j = 0;
-            char *frasesuculenta="";
-            FILE *farbol = fopen(salida, "rt"), *ffrasec = fopen(salida2, "rb"),*jaja = fopen(salida3,"w+");;
-            if (!farbol || !ffrasec||!jaja) {
+            FILE *farbol = fopen(salida, "rt"), *ffrasec = fopen(salida2, "rb"),*jaja = fopen(salida3,"w+"),*frasesuculenta = fopen(salida4,"w");
+            if (!farbol || !ffrasec||!jaja || !frasesuculenta) {
                 puts("Error en la apertura de los archivos");
                 exit(-1);
             }
@@ -123,9 +123,7 @@ int main() {
             arboldec = Reconstruirtree(letter, valor, recorrido(listaaux));
             preOrden(arboldec);
             puts(arreglo);
-            Nodo *auz23r = arboldec;
-            frasesuculenta = decodificador(auz23r,arreglo);
-            puts(frasesuculenta);
+            decodificador(arboldec,arreglo,frasesuculenta);
             break;
 
         case 0:
@@ -133,7 +131,7 @@ int main() {
             break;
 
         default:
-            puts("Inserte una opcion valida");
+            puts("Te equivocaste CRACKK");
             break;
     }
 

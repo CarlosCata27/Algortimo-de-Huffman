@@ -101,6 +101,14 @@ void obtbinarch(Binario *listaBin, char frase[],FILE *out3) {
                     sprintf(array, "%d", aux->binario);
                     if (strlen(array) == (aux->nbits - 1))
                         sprintf(array, "0%d", aux->binario);
+                    else if(strlen(array)==(aux->nbits-2))
+                        sprintf(array, "00%d", aux->binario);
+                    else if (strlen(array) == (aux->nbits -3))
+                        sprintf(array, "000%d", aux->binario);
+                    else if (strlen(array) == (aux->nbits -4))
+                        sprintf(array, "0000%d", aux->binario);
+                    else if (strlen(array) == (aux->nbits -5))
+                        sprintf(array, "00000%d", aux->binario);
 
                     fprintf(out3, "%s", array);
                     break;
@@ -330,25 +338,21 @@ int recorrido(Nodo *top) {
     return i;
 }
 
-char  *decodificador(Nodo *root, char *s) {
-    Nodo *temp=root;
+void decodificador(Nodo *root, char *s,FILE *fraseim) {
+    Nodo *temp = root;
     char *ans = "";
-    int i = 0;
-    while (s[i] != '\0') {
-        if (s[i] == '1') {
-            puts("R");
-            temp = temp->R;
-        } else {
-            puts("L");
+    for (int j = 0; j < strlen(s); ++j) {
+        if (s[j] == '0') {
             temp = temp->L;
+        } else {
+            temp = temp->R;
         }
-        if (!(temp->L)&&!(temp->R)) {
-            sprintf(ans, "%c", temp->caracter);
+        if (!(temp->L) && !(temp->R)) {
+            printf("%c", temp->caracter);
+            fprintf(fraseim, "%c", temp->caracter);
             temp = root;
         }
-        i++;
     }
-    return (strcat(ans, "\0"));
 }
 
 Nodo* altainicio(int dato, Nodo* top,char caracter) {
@@ -401,29 +405,25 @@ Nodo *ordenar_seleccion(Nodo *top) {
     return top;
 }
 
-Nodo *Ayudantexd (char letra[],int valores[], int* Indice, int min, int max, int size) {
-    if (*Indice >= size || min > max) {
+Nodo *Ayudantexd(int valores[], char caracteres[], int *Indice, int n) {
+    int index = *Indice;
+    if (index == n) {
         return NULL;
     }
-    Nodo *raiz = allocateMem(valores[*Indice], letra[*Indice]);
-    *Indice = *Indice + 1;
-    if (min == max) {
-        return raiz;
+    Nodo *temp = allocateMem(valores[index], caracteres[index]);
+    (*Indice)++;
+
+    if (caracteres[index] == '*') {
+        temp->L = Ayudantexd(valores, caracteres, Indice, n);
+        temp->R = Ayudantexd(valores, caracteres, Indice, n);
     }
-    int i;
-    for (i = min; i <= max; i++) {
-        if (valores[i] > raiz->dato) {
-            break;
-        }
-    }
-    raiz->L = Ayudantexd(letra, valores, Indice, *Indice, i - 1, size);
-    raiz->R = Ayudantexd(letra, valores, Indice, i, max, size);
-    return raiz;
+
+    return temp;
 }
 
 Nodo *Reconstruirtree(char letra[], int valores[], int size) {
     int Indice = 0;
-    return Ayudantexd(letra, valores, &Indice, 0, size - 1, size);
+    return Ayudantexd(valores, letra, &Indice, size);
 }
 
 #endif
