@@ -124,13 +124,15 @@ int main() {
             break;
     }
 
-    puts("--------------------------------------------------------------------------\n"
+    puts("---------------------------------------------------------------------------------------------\n"
          "REFERENCIAS SACADAS DE LAS SIGUIENTES PAGINAS:\n"
          "https://www.geeksforgeeks.org/huffman-decoding/\n"
          "https://elcodigoascii.com.ar/\n"
          "https://travesuras.wordpress.com/2010/08/25/20100825-1/\n"
          "http://www.csfieldguide.org.nz/en/interactives/huffman-tree/index.html\n"
          "https://www.geeksforgeeks.org/construct-bst-from-given-preorder-traversa/\n"
-         "--------------------------------------------------------------------------\n");
+         "https://github.com/mrsarm/compres\n"
+         "https://www.dreamincode.net/forums/blog/324/entry-3150-an-in-depth-look-at-huffman-encoding/\n"
+         "---------------------------------------------------------------------------------------------\n");
     return 0;
 }
