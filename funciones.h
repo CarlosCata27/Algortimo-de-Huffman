@@ -402,35 +402,34 @@ Nodo *ordenar_seleccion(Nodo *top) {
     return top;
 }
 
-Nodo *Ayudantexd (char letra[],int pre[], int* preIndex, int low, int high, int size){
-    if (*preIndex >= size || low > high) {
+Nodo *Ayudantexd (char letra[],int valores[], int* Indice, int min, int max, int size) {
+    if (*Indice >= size || min > max) {
         return NULL;
     }
 
-    Nodo *root;
-    root = allocateMem(pre[*preIndex],letra[*preIndex]);
-    *preIndex = *preIndex + 1;
+    Nodo *raiz = allocateMem(valores[*Indice], letra[*Indice]);
+    *Indice = *Indice + 1;
 
-    if (low == high) {
-        return root;
+    if (min == max) {
+        return raiz;
     }
 
     int i;
-    for (i = low; i <= high; i++ ) {
-        if (pre[i] > root->dato) {
+    for (i = min; i <= max; i++) {
+        if (valores[i] > raiz->dato) {
             break;
         }
     }
 
-    root->L = Ayudantexd (letra, pre, preIndex, *preIndex, i - 1, size );
-    root->R = Ayudantexd (letra, pre, preIndex, i, high, size );
+    raiz->L = Ayudantexd(letra, valores, Indice, *Indice, i - 1, size);
+    raiz->R = Ayudantexd(letra, valores, Indice, i, max, size);
 
-    return root;
+    return raiz;
 }
 
-Nodo *Reconstruirtree(char letra[], int pre[], int size){
-    int preIndex = 0;
-    return Ayudantexd (letra ,pre, &preIndex, 0, size - 1, size);
+Nodo *Reconstruirtree(char letra[], int valores[], int size) {
+    int Indice = 0;
+    return Ayudantexd(letra, valores, &Indice, 0, size - 1, size);
 }
 
 #endif
