@@ -1,4 +1,4 @@
-# Practica_4
+# Practica 4
 Algoritmo de Huffman mediante Arboles y Listas 
 
 Build 0.5.2
